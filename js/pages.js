@@ -52,7 +52,7 @@
         persona('💡', 'I have an idea', 'Get clarity in 20 minutes: the Idea Clarity Lab turns your fuzzy idea into a one-page plan and experiments to run.', '#/lab', 'Open the Lab'),
         persona('🏪', 'I run a business', 'Run the Business Health Diagnostic. Get a scored report and the exact lessons and tools to fix your weakest areas.', '#/advisor', 'Diagnose my business'),
         persona('👔', 'C-suite / advisor track', 'Strategy, capital, governance, consulting toolkit, decision-making — and 30+ case problems to practise on.', '#/arena', 'Enter the Arena')));
-    var stages = h('section', h('h2', 'The curriculum'), h('p.muted', '4 stages · ' + MBA.tracks.length + ' tracks · ' + totalL + ' lessons — designed so each builds on the last.'),
+    var stages = h('section', h('h2', 'The curriculum'), h('p.muted', MBA.STAGES.length + ' stages · ' + MBA.tracks.length + ' tracks · ' + totalL + ' lessons — designed so each builds on the last.'),
       h('div.stage-strip', MBA.STAGES.map(function (s) {
         var ts = MBA.tracks.filter(function (t) { return t.stage === s.n; });
         return h('a.stage-card.reveal', { href: '#/path#stage-' + s.n }, h('span.stage-n', 'Stage ' + s.n), h('h3', s.icon + ' ' + s.name), h('p', s.desc), h('div.stage-icons', ts.map(function (t) { return h('span', { title: t.title }, t.icon); })));

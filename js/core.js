@@ -20,8 +20,9 @@
     STAGES: [
       { n: 1, name: 'Foundations', desc: 'Zero to fluent: how business and economies actually work.', icon: '🌱' },
       { n: 2, name: 'Build', desc: 'Turn a fuzzy idea into a validated, well-designed business.', icon: '🛠️' },
-      { n: 3, name: 'Core Functions', desc: 'Master every department a company runs on.', icon: '⚙️' },
-      { n: 4, name: 'Grow & Lead', desc: 'Strategy, capital, scale, governance and the C-suite.', icon: '🚀' }
+      { n: 3, name: 'Core Functions', desc: 'Every department a company runs on, plus the analysis, negotiation and communication skills that tie them together.', icon: '⚙️' },
+      { n: 4, name: 'Grow & Lead', desc: 'Strategy, capital, deals, innovation, ethics, global business and leading yourself and others.', icon: '🚀' },
+      { n: 5, name: 'Specialise', desc: 'Electives that go deep on one lens: sustainability and impact, and doing business in India.', icon: '🎓' }
     ],
 
     track: function (id) {
