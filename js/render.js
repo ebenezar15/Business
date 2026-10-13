@@ -198,6 +198,23 @@
       hints, model);
   }
 
+  /* ---------- bookmarks & personal notes ---------- */
+  function bookmarkBtn(key, label, href) {
+    var on = MBA.store.isBookmarked(key);
+    var b = h('button.btn.ghost.small.bm-btn' + (on ? '.on' : ''), { 'aria-pressed': on ? 'true' : 'false', title: 'Bookmark this page' });
+    function paint() { b.textContent = on ? '★ Bookmarked' : '☆ Bookmark'; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+    b.addEventListener('click', function () { on = MBA.store.toggleBookmark(key, label, href); paint(); U.toast(on ? 'Bookmarked — find it under Notes & Bookmarks' : 'Bookmark removed'); });
+    paint();
+    return b;
+  }
+  function noteBox(key, title) {
+    var s = MBA.store.get(), id = 'note-' + key.replace(/[^a-z0-9]+/gi, '-');
+    var ta = h('textarea.work', { id: id, rows: 4, placeholder: 'Your own notes: what clicked, what to apply at work, questions to revisit. Saved automatically.' });
+    ta.value = s.notes[key] || '';
+    ta.addEventListener('input', function () { if (ta.value.trim()) s.notes[key] = ta.value; else delete s.notes[key]; MBA.store.save(); });
+    return h('section.notes-box.reveal', h('h2', h('label', { for: id }, '🗒️ ' + (title || 'My notes'))), ta, h('small', 'All your notes are collected on the ', h('a', { href: '#/notes' }, 'Notes & Bookmarks'), ' page.'));
+  }
+
   /* ---------- whole lesson ---------- */
   function lesson(found) {
     var t = found.track, l = found.lesson, i = found.index, ls = t.lessons;
@@ -206,7 +223,8 @@
     var page = h('article.lesson', { style: { '--track': t.color } });
     page.appendChild(h('nav.crumbs', h('a', { href: '#/path' }, 'Learning path'), ' / ', h('a', { href: '#/track/' + t.id }, t.icon + ' ' + t.title), ' / ', h('span', 'Lesson ' + (i + 1))));
     page.appendChild(h('header.lesson-head',
-      h('div.lesson-meta', h('span.pill.lvl-' + (l.level || 'Beginner').toLowerCase(), l.level || 'Beginner'), h('span.pill', '⏱ ' + (l.minutes || 10) + ' min'), done ? h('span.pill.good', '✓ Completed') : null),
+      h('div.lesson-meta', h('span.pill.lvl-' + (l.level || 'Beginner').toLowerCase(), l.level || 'Beginner'), h('span.pill', '⏱ ' + (l.minutes || 10) + ' min'), done ? h('span.pill.good', '✓ Completed') : null,
+        bookmarkBtn('lesson:' + l.id, t.icon + ' ' + l.title, '#/lesson/' + l.id)),
       h('h1', l.title), l.hook ? h('p.hook', l.hook) : null));
     if (l.eli5) page.appendChild(h('section.eli5.reveal', h('div.eli5-badge', '🧒 Explain it simply'), html(l.eli5)));
     var body = h('div.lesson-body');
@@ -218,6 +236,7 @@
     if (l.takeaways && l.takeaways.length) page.appendChild(h('section.takeaways.reveal', h('h2', '🎯 Key takeaways'), h('ul', l.takeaways.map(function (x) { return h('li', { html: x }); }))));
     if (l.quiz && l.quiz.length) page.appendChild(quiz(l));
     if (l.challenge) page.appendChild(challenge(l.challenge, 'lesson:' + l.id));
+    page.appendChild(noteBox('mynote:lesson:' + l.id));
     var completeBtn = h('button.btn.big' + (done ? '.ghost' : ''), { onclick: function () {
       if (MBA.store.completeLesson(l.id)) { U.confetti(); completeBtn.textContent = '✓ Completed'; completeBtn.classList.add('ghost'); }
       if (next) location.hash = '#/lesson/' + next.id;
@@ -229,5 +248,5 @@
     return page;
   }
 
-  MBA.render = { block: block, lesson: lesson, widget: widget, html: html, quiz: quiz, challenge: challenge };
+  MBA.render = { block: block, lesson: lesson, widget: widget, html: html, quiz: quiz, challenge: challenge, bookmarkBtn: bookmarkBtn, noteBox: noteBox };
 })();

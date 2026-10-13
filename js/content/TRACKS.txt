@@ -17,3 +17,13 @@ order | id | stage | title | color
 16 | scaling | 4 | Scaling & Organisation Design | #f43f5e
 17 | legal | 4 | Legal, Governance & Risk | #a16207
 18 | csuite | 4 | C-Suite, Consulting & Startup Advisory | #0f766e
+19 | data-decisions | 3 | Data, Statistics & Decision Analysis | #7c3aed
+20 | ethics | 4 | Ethics, Leadership & Corporate Accountability | #be123c
+21 | global | 4 | Global Business & Political Economy | #0369a1
+22 | negotiation | 3 | Negotiation & Influence | #c2410c
+23 | communication | 3 | Business Communication | #4d7c0f
+24 | corp-finance | 4 | Corporate Finance II: M&A, LBOs & Capital Structure | #1d4ed8
+25 | innovation | 4 | Innovation & Corporate Entrepreneurship | #db2777
+26 | self-leadership | 4 | Self-Leadership & Interpersonal Dynamics | #059669
+27 | esg | 5 | ESG & Impact | #15803d
+28 | india | 5 | India Business Lens | #ea580c

@@ -95,7 +95,25 @@
       for (var i = 0; i < ranks.length; i++) { if (xp >= ranks[i][0]) { cur = ranks[i]; next = ranks[i + 1] || null; } }
       return { xp: xp, name: cur[1], floor: cur[0], next: next ? next[0] : null, nextName: next ? next[1] : null };
     },
-    reset: function () { mem = blank(); save(); }
+    reset: function () { mem = blank(); save(); },
+    isBookmarked: function (key) { return !!load().bookmarks[key]; },
+    toggleBookmark: function (key, label, href) {
+      var s = load();
+      if (s.bookmarks[key]) delete s.bookmarks[key]; else s.bookmarks[key] = { label: label, href: href, t: Date.now() };
+      save(); return !!s.bookmarks[key];
+    },
+    /* Replace all progress with an imported object. Unknown keys are kept; missing ones get blank() defaults. */
+    replace: function (obj) {
+      if (!obj || typeof obj !== 'object' || Array.isArray(obj)) throw new Error('not a progress object');
+      if (!('done' in obj) && !('xp' in obj)) throw new Error('missing progress fields');
+      var b = blank();
+      for (var k in b) {
+        if (!(k in obj) || obj[k] === null && b[k] !== null) obj[k] = b[k];
+        else if (b[k] !== null && typeof b[k] !== typeof obj[k]) throw new Error('field "' + k + '" has the wrong type');
+      }
+      mem = obj; save();
+    },
+    exportJSON: function () { return JSON.stringify(load(), null, 1); }
   };
 
   window.MBA = MBA;

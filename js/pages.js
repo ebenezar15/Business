@@ -306,7 +306,8 @@
   P.tool = function (id) {
     if (!MBA.widgets[id]) return P.notFound();
     var related = MBA.allLessons().filter(function (x) { return (x.lesson.blocks || []).some(function (b) { return b.type === 'interactive' && b.widget === id; }); }).slice(0, 6);
-    return h('div.page', h('nav.crumbs', h('a', { href: '#/toolkit' }, 'Toolkit')), RD.widget(id),
+    var w = MBA.widgets[id];
+    return h('div.page', h('nav.crumbs', h('a', { href: '#/toolkit' }, 'Toolkit')), h('div.row-actions.start', RD.bookmarkBtn('tool:' + id, w.icon + ' ' + w.title, '#/tool/' + id)), RD.widget(id),
       related.length ? h('section', h('h3', 'Learn the concepts behind it'), h('div', related.map(function (x) { return h('a.tag', { href: '#/lesson/' + x.lesson.id }, x.track.icon + ' ' + x.lesson.title); }))) : null);
   };
 
@@ -333,6 +334,7 @@
     var out = h('div.case-out');
     var page = h('div.page.narrow', h('nav.crumbs', h('a', { href: '#/cases' }, 'Case library')),
       h('p.eyebrow', (c.industry || '') + ' · ' + (c.year || '')), h('h1', c.company + ': ' + c.title),
+      h('div.row-actions.start', RD.bookmarkBtn('case:' + c.id, '📚 ' + c.company + ': ' + c.title, '#/case/' + c.id)),
       h('section.block', RD.html(c.situation)),
       h('section.block.scenario', h('h3', '🤔 ' + c.question), h('div.sc-options', (c.options || []).map(function (o) {
         return h('button.sc-opt', { onclick: function () {
@@ -380,6 +382,7 @@
     var table = c.data ? h('div.table-wrap', h('table.compare', h('thead', h('tr', c.data.headers.map(function (x) { return h('th', x); }))), h('tbody', c.data.rows.map(function (r) { return h('tr', r.map(function (x) { return h('td', String(x)); })); })))) : null;
     return h('div.page.narrow', h('nav.crumbs', h('a', { href: '#/arena' }, 'Challenge arena')),
       h('p.eyebrow', (c.role || '') + ' · Difficulty ' + '●'.repeat(c.difficulty)), h('h1', c.title),
+      h('div.row-actions.start', RD.bookmarkBtn('challenge:' + c.id, '🏆 ' + c.title, '#/challenge/' + c.id)),
       h('section.block', RD.html(c.scenario), table),
       h('section.block', h('h3', 'Your tasks'), h('ol', (c.tasks || []).map(function (t) { return h('li', { html: t }); }))),
       h('section.challenge-box', h('h3', '✍️ Your answer'), ta,
@@ -455,7 +458,7 @@
 
   /* ================= TRENDS ================= */
   P.trends = function () {
-    var page = h('div.page', pageHead('📡', 'What\'s changing now', 'The shifts reshaping business in 2025–2026 — and what to do about each.'));
+    var page = h('div.page', pageHead('📡', 'Trends 2026–27', 'The shifts reshaping business in 2026–2027 — and what to do about each.'));
     page.appendChild(h('div.trend-grid', MBA.trends.map(function (t, i) {
       return h('details.trend.reveal', { style: { '--i': i % 6 } }, h('summary', h('span.pill', t.category), h('h3', t.title), h('p', { html: t.summary })),
         h('div.trend-body', h('p', h('b', 'Why it matters: '), h('span', { html: t.why })), t.examples ? h('ul', t.examples.map(function (e) { return h('li', { html: e }); })) : null, h('p.action', h('b', '👉 Do this: '), h('span', { html: t.action }))));
@@ -476,14 +479,91 @@
         var done = MBA.tracks.filter(function (t) { return trackProgress(t).p === 1; });
         return done.length ? h('ul', done.map(function (t) { return h('li', h('a', { href: '#/track/' + t.id }, t.icon + ' ' + t.title)); })) : h('p.muted', 'Complete every lesson in a track to earn its certificate.');
       })()),
+      backupBox(),
       h('div.row-actions',
-        U.embedded ? null : h('button.btn.ghost.small', { onclick: function () {
-          var blob = new Blob([JSON.stringify(s, null, 1)], { type: 'application/json' }), a = h('a', { href: URL.createObjectURL(blob), download: 'mba-studio-progress.json' }); document.body.appendChild(a); a.click(); a.remove();
-        } }, '⬇️ Export progress'),
-        h('label.btn.ghost.small', '⬆️ Import', h('input', { type: 'file', accept: 'application/json', style: { display: 'none' }, onchange: function (e) {
-          var f = e.target.files[0]; if (!f) return; var r = new FileReader(); r.onload = function () { try { localStorage.setItem('mba-studio-v1', r.result); location.reload(); } catch (err) { U.toast('Import failed'); } }; r.readAsText(f);
-        } })),
         U.confirmBtn('Reset everything', 'Click again to erase all progress', function () { MBA.store.reset(); location.hash = '#/'; location.reload(); }, 'danger')));
+  };
+
+  /* Export / import progress as JSON. Download where allowed; copy-to-clipboard inside embedded viewers. */
+  function backupBox() {
+    var status = h('p.small', { 'aria-live': 'polite' });
+    var fileIn = h('input#import-file', { type: 'file', accept: 'application/json,.json', class: 'visually-hidden' });
+    fileIn.addEventListener('change', function () {
+      var f = fileIn.files[0]; if (!f) return;
+      var r = new FileReader();
+      r.onload = function () {
+        try {
+          MBA.store.replace(JSON.parse(r.result));
+          status.textContent = 'Imported. Reloading…';
+          setTimeout(function () { location.reload(); }, 400);
+        } catch (err) { status.textContent = 'Import failed: ' + err.message + '. Choose a file exported from MBA Studio.'; }
+        fileIn.value = '';
+      };
+      r.onerror = function () { status.textContent = 'Could not read that file.'; };
+      r.readAsText(f);
+    });
+    var exportBtn = U.embedded
+      ? h('button.btn.ghost.small', { onclick: function () {
+          var txt = MBA.store.exportJSON();
+          var p = navigator.clipboard && navigator.clipboard.writeText ? navigator.clipboard.writeText(txt) : Promise.reject();
+          p.then(function () { status.textContent = 'Progress copied. Paste it into a .json file to keep a backup.'; }, function () { status.textContent = 'Copy is blocked here. Open MBA Studio from index.html to download a backup.'; });
+        } }, '📋 Copy progress (JSON)')
+      : h('button.btn.ghost.small', { onclick: function () {
+          var blob = new Blob([MBA.store.exportJSON()], { type: 'application/json' }), url = URL.createObjectURL(blob);
+          var a = h('a', { href: url, download: 'mba-studio-progress-' + new Date().toISOString().slice(0, 10) + '.json' });
+          document.body.appendChild(a); a.click(); a.remove(); setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+          status.textContent = 'Downloaded. Import it on another device or browser to continue where you left off.';
+        } }, '⬇️ Export progress (JSON)');
+    return h('section.side-box', h('h4', '💾 Back up or move your progress'),
+      h('p.small', 'Progress lives in this browser only. Export it to keep a backup or move it to another device. Importing replaces everything here.'),
+      h('div.row-actions.start', exportBtn, h('label.btn.ghost.small', '⬆️ Import progress', fileIn)),
+      status);
+  }
+
+  /* ================= NOTES & BOOKMARKS ================= */
+  function noteMeta(key) {
+    var m = key.match(/^(mynote:lesson|lesson|arena):(.+)$/);
+    if (!m) return null;
+    if (m[1] === 'arena') {
+      var c = MBA.challenges.filter(function (x) { return x.id === m[2]; })[0];
+      return c ? { kind: 'Challenge answer', label: '🏆 ' + c.title, href: '#/challenge/' + c.id } : null;
+    }
+    var f = MBA.lesson(m[2]);
+    if (!f) return null;
+    return { kind: m[1] === 'lesson' ? 'Lesson challenge' : 'Lesson note', label: f.track.icon + ' ' + f.lesson.title, href: '#/lesson/' + f.lesson.id };
+  }
+  P.notes = function () {
+    var s = MBA.store.get();
+    var page = h('div.page.narrow', pageHead('🗒️', 'Notes & Bookmarks', 'Everything you saved: bookmarked lessons, cases and tools, your lesson notes and your challenge answers.'));
+    var bmWrap = h('section'), ntWrap = h('section');
+    var search = h('input.search', { type: 'search', placeholder: 'Search your notes…', 'aria-label': 'Search your notes' });
+    function drawBookmarks() {
+      bmWrap.innerHTML = '';
+      var keys = Object.keys(s.bookmarks).sort(function (a, b) { return (s.bookmarks[b].t || 0) - (s.bookmarks[a].t || 0); });
+      bmWrap.appendChild(h('h2', '★ Bookmarks (' + keys.length + ')'));
+      if (!keys.length) { bmWrap.appendChild(h('p.muted', 'No bookmarks yet. Use the ☆ Bookmark button on any lesson, case, challenge or tool.')); return; }
+      bmWrap.appendChild(h('ul.saved-list', keys.map(function (k) {
+        var b = s.bookmarks[k];
+        return h('li.saved-item', h('a', { href: b.href }, b.label), h('button.btn.ghost.small', { 'aria-label': 'Remove bookmark ' + b.label, onclick: function () { delete s.bookmarks[k]; MBA.store.save(); drawBookmarks(); } }, 'Remove'));
+      })));
+    }
+    function drawNotes() {
+      ntWrap.innerHTML = '';
+      var q = search.value.toLowerCase().trim();
+      var items = Object.keys(s.notes).filter(function (k) { return (s.notes[k] || '').trim(); }).map(function (k) { var m = noteMeta(k); return m ? { k: k, m: m, text: s.notes[k] } : null; })
+        .filter(function (x) { return x && (!q || (x.m.label + ' ' + x.text).toLowerCase().indexOf(q) >= 0); });
+      ntWrap.appendChild(h('h2', '🗒️ Notes (' + items.length + ')'));
+      if (!items.length) { ntWrap.appendChild(h('p.muted', q ? 'No notes match that search.' : 'No notes yet. Every lesson has a "My notes" box at the end, and challenge answers you write are saved here too.')); return; }
+      items.forEach(function (x) {
+        ntWrap.appendChild(h('article.note-card', h('div.note-head', h('span.pill', x.m.kind), h('a', { href: x.m.href }, x.m.label)),
+          h('p.note-text', x.text.length > 600 ? x.text.slice(0, 600) + '…' : x.text),
+          h('div.row-actions.start', h('a.btn.ghost.small', { href: x.m.href }, 'Open'), U.confirmBtn('Delete', 'Click again to delete', function () { delete s.notes[x.k]; MBA.store.save(); drawNotes(); }))));
+      });
+    }
+    search.addEventListener('input', drawNotes);
+    drawBookmarks(); drawNotes();
+    page.appendChild(bmWrap); page.appendChild(search); page.appendChild(ntWrap);
+    return page;
   };
 
   /* ================= SEARCH ================= */

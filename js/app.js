@@ -15,7 +15,8 @@
     ['#/frameworks', '🧠', 'Frameworks'],
     ['#/practice', '🎲', 'Daily drill'],
     ['#/glossary', '📖', 'Glossary'],
-    ['#/trends', '📡', 'Trends 2025–26'],
+    ['#/trends', '📡', 'Trends 2026–27'],
+    ['#/notes', '🗒️', 'Notes & Bookmarks'],
     ['#/profile', '👤', 'Progress']
   ];
 
@@ -40,6 +41,7 @@
       case 'practice': return P.practice();
       case 'trends': return P.trends();
       case 'profile': return P.profile();
+      case 'notes': return P.notes();
       case 'search': return P.search(b);
       default: return P.notFound();
     }
