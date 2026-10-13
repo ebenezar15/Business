@@ -6,6 +6,22 @@ All content is original. MBA Studio is not affiliated with any business school.
 
 **Run it:** open `index.html` in any browser. There's no install, no build step and no server, and it works offline (only the web fonts need a connection). To host it, enable GitHub Pages on this repo.
 
+## Download and use on any device
+
+**[⬇️ Download MBA-Studio.html](https://github.com/ebenezar15/Business/raw/claude/gallant-mccarthy-30h9kg/dist/MBA-Studio.html)** (one file, about 2.5 MB). Everything is built in and it works offline.
+
+| Device | How to open it |
+|---|---|
+| Windows, Mac, Linux, Chromebook | Download the file, then double-click it. It opens in your browser. |
+| Android | Download it, then open it from the Downloads notification or your Files app with **Chrome**. |
+| iPhone / iPad | iOS previews downloaded HTML files without running them, so use the online version instead. In Safari, tap **Share → Add to Home Screen** to open it like an app. |
+
+If the download link shows code instead of saving the file, right-click it (or long-press on a phone) and choose **Save link as / Download linked file**.
+
+Progress is saved in the browser you open the file with. Use **Progress → Export** to move it to another device.
+
+To rebuild the single file after editing content, run `node tools/build-single.js`.
+
 ## What's inside
 
 | Area | What you get |
