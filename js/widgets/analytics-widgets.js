@@ -330,8 +330,8 @@
         sg.exp = 0.7 * sg.exp + 0.3 * signal;                                   // smoothed demand forecast
         var pipeline = sg.inbound.reduce(function (a, b) { return a + b; }, 0) + (sg.orderPipe ? sg.orderPipe.reduce(function (a, b) { return a + b; }, 0) : 0);
         var target = 12, net = sg.inv - sg.back;
-        var pipeW = st.share ? 0.8 : 0.2;                                        // without information, players under-count the pipeline
-        return Math.max(0, Math.round(sg.exp + 0.5 * (target - net) + pipeW * 0.5 * (sg.exp * 3 - pipeline)));
+        var pipeW = st.share ? 0.8 : 0.4;                                        // without information, players under-count the pipeline
+        return Math.max(0, Math.round(sg.exp + 0.3 * (target - net) + pipeW * 0.5 * (sg.exp * 3 - pipeline)));
       }
       function step(myOrder) {
         var orders = [], incoming = demand(st.w);

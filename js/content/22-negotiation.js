@@ -46,6 +46,7 @@ MBA.addTrack({
           explain: `Your <b>BATNA</b> is what you will actually do if there is no deal. Your <b>reservation price</b> (walk-away point) is the worst deal you would accept — derived from your BATNA after adjusting for differences in risk, timing and non-price factors. Your <b>target</b> is your ambitious but justifiable goal. The <b>ZOPA</b> is the overlap of the two reservation prices. Any deal inside it splits a <b>surplus</b>: each side’s gain over its walk-away.`,
           example: `You are selling a business. Your BATNA is a $380k offer from another buyer, but that buyer pays in two instalments, which you value at $20k less certainty — so your reservation price for an all-cash deal is about <b>$400k</b>. The buyer’s reservation is <b>$460k</b>. ZOPA = $400k to $460k ($60k of surplus). A deal at $430k gives you $30k of surplus and the buyer $30k. At $450k you get $50k and the buyer $10k.`
         },
+        { type: 'interactive', widget: 'negotiation-zopa', title: 'Map the bargaining zone', note: 'Drag the buyer\'s walk-away below the seller\'s: the ZOPA disappears. Then add value with the delivery issue and watch a deal become possible again.' },
         {
           type: 'compare', title: 'Positions vs interests', headers: ['Situation', 'Stated position', 'Possible underlying interests'],
           rows: [
@@ -135,6 +136,7 @@ MBA.addTrack({
           explain: `Many single-issue negotiations end near the midpoint of the two opening offers, because both sides expect roughly symmetrical concessions. This is why your opening offer matters so much: moving it moves the midpoint. It is a tendency, not a law — a much stronger BATNA pulls the deal toward you.`,
           example: `Buying a used van. You open at $18,000; the seller opened at $26,000. Midpoint = <b>$22,000</b>. If your research shows a fair market range of $20,500–$22,500 and you opened at $16,000 instead, the midpoint drops to $21,000 — but only if $16,000 is still credible, or the seller may walk away.`
         },
+        { type: 'interactive', widget: 'negotiation-zopa', title: 'Feel the pull of an anchor', note: 'Keep both walk-away prices fixed and move only the seller\'s opening ask from $130k to $190k. Where does the likely settlement land?' },
         {
           type: 'compare', title: 'Concession patterns and what they signal', headers: ['Pattern', 'Example (your moves)', 'What the other side hears'],
           rows: [

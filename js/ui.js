@@ -94,10 +94,12 @@
   function countUp(node, to, formatter, ms) {
     formatter = formatter || function (v) { return Math.round(v).toLocaleString(); };
     var from = parseFloat(node.getAttribute('data-v') || '0') || 0;
+    var token = node._anim = (node._anim || 0) + 1;   // a newer update cancels this animation
     node.setAttribute('data-v', to);
     if (!isFinite(to) || !isFinite(from)) { node.textContent = formatter(to); return; }
     var start = null; ms = ms || 450;
     function step(ts) {
+      if (node._anim !== token) return;
       if (!start) start = ts;
       var k = Math.min(1, (ts - start) / ms), e = 1 - Math.pow(1 - k, 3);
       node.textContent = formatter(from + (to - from) * e);
@@ -254,7 +256,7 @@
       node.classList.remove('good', 'bad', 'warn');
       if (tone) node.classList.add(tone);
     };
-    node.text = function (t, tone) { v.textContent = t; node.classList.remove('good', 'bad', 'warn'); if (tone) node.classList.add(tone); };
+    node.text = function (t, tone) { v._anim = (v._anim || 0) + 1; v.removeAttribute('data-v'); v.textContent = t; node.classList.remove('good', 'bad', 'warn'); if (tone) node.classList.add(tone); };
     return node;
   }
 

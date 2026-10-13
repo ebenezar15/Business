@@ -506,6 +506,7 @@ MBA.addTrack({
             { label: 'Cures', desc: 'Share point-of-sale data, vendor-managed inventory, smaller frequent orders, everyday low pricing, and allocation based on past sales.' }
           ]
         },
+        { type: 'interactive', widget: 'beer-game', title: 'Play the beer game', note: 'Play the Retailer for 20 weeks, then restart with "Share end-customer demand" ticked and compare the bullwhip number.' },
         {
           type: 'case', company: 'Zara (Inditex)', year: '1990s–today', title: 'Speed beats cheap',
           situation: `Most fashion retailers design collections many months ahead and manufacture in low-cost Asian factories, betting on what will sell.`,

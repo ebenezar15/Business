@@ -170,6 +170,7 @@ MBA.addTrack({
           explain: `A bank can lock in a future exchange rate today because it can borrow one currency and deposit the other. The forward rate simply reflects the <b>interest-rate gap</b> — it is <i>not</i> a forecast of where the currency will be.`,
           example: `Spot ₹85.00/$. One-year rupee rate 6.5%, dollar rate 4.5%. Forward = 85 × 1.065 ÷ 1.045 = <b>₹86.63/$</b>. The dollar trades at a forward <b>premium</b> of about 1.9% because rupee rates are higher. An Indian exporter selling dollars forward therefore locks in more rupees than today\'s spot.`
         },
+        { type: 'interactive', widget: 'fx-exposure', title: 'Hedge a dollar invoice', note: 'Set the future spot to ₹78, then move the hedge ratio from 0% to 100%. Notice that hedging also gives up the gain if the rupee weakens to ₹90.' },
         {
           type: 'compare', title: 'The three types of FX exposure', headers: ['', 'Transaction', 'Translation', 'Economic (operating)'],
           rows: [

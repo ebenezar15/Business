@@ -430,6 +430,7 @@ MBA.addTrack({
           explain: 'MOIC (multiple on invested capital) tells you how many times your money you got back; IRR tells you how fast. Rules of thumb over 5 years: 2.0x ≈ 15% IRR; 3.0x ≈ 25% IRR. A quick deal at a modest multiple can have a high IRR but small absolute profit.',
           example: `Continuing the deal above. Over 5 years EBITDA grows from $100m to <b>$140m</b> and free cash flow repays $250m of debt, leaving <b>$250m</b>. Exit at <b>9.0x</b>: EV = 9 × 140 = <b>$1,260m</b>. Equity at exit = 1,260 − 250 = <b>$1,010m</b>.<br>MOIC = 1,010 ÷ 320 = <b>3.16x</b>. IRR = 3.156^(1/5) − 1 ≈ <b>25.8%</b>.<br><b>Bridge of the $690m gain</b>: EBITDA growth 40 × 8.0 = $320m + multiple expansion 1.0x × 140 = $140m + debt paydown $250m − fees $20m = <b>$690m</b>. Note how much relied on the higher exit multiple: at an 8.0x exit, equity = 1,120 − 250 = $870m → 2.72x, about 22% IRR.`
         },
+        { type: 'interactive', widget: 'lbo', title: 'Build the returns yourself', note: 'Set EBITDA growth to 0% and exit multiple equal to entry: every bit of return now comes from paying down debt. Then try −5% growth with 6.5x debt.' },
         {
           type: 'interactive', widget: 'npv', title: 'Check the IRR yourself',
           note: 'Enter −320 in year 0, then 0, 0, 0, 0 and 1,010 in year 5. The IRR should be about 25.8%. Then change the exit to 870 and watch IRR fall to about 22%.'

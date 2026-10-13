@@ -20,7 +20,7 @@ are not sure of an exact number, describe it qualitatively ("grew rapidly", "rou
 ```js
 MBA.addTrack({
   id: 'finance',                 // kebab-case, unique
-  stage: 3,                      // 1 Foundations, 2 Build, 3 Core functions, 4 Grow & Lead
+  stage: 3,                      // 1 Foundations, 2 Build, 3 Core functions, 4 Grow & Lead, 5 Specialise
   order: 9,                      // global order 1..18 (given to you)
   title: 'Finance & Accounting',
   icon: '💰',                    // a single emoji
@@ -126,6 +126,14 @@ MBA.addTrack({
 | `viral-loop` | K-factor viral growth simulation |
 | `working-capital` | DSO/DIO/DPO → cash conversion cycle |
 | `okr` | OKR builder |
+| `decision-tree` | decision tree with value of (perfect and imperfect) information |
+| `monte-carlo` | 2,000-run revenue/profit simulation with uncertainty sliders |
+| `regression` | editable scatter data → best-fit line, slope, R², forecast |
+| `hypothesis-test` | two-sample t-test: p-value, confidence interval |
+| `lbo` | leveraged buyout returns: MOIC, IRR and value-creation bridge |
+| `fx-exposure` | exporter's FX transaction exposure and forward hedging |
+| `negotiation-zopa` | BATNA / reservation prices, ZOPA, anchors and integrative value |
+| `beer-game` | 4-stage supply chain over 20 weeks showing the bullwhip effect |
 
 ---
 

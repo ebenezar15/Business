@@ -387,6 +387,43 @@ svg.chart { width: 100%; max-width: 680px; margin: 0 auto; height: auto; display
 .box textarea { flex: 1; width: 100%; min-height: 90px; border: 0; border-radius: 8px; padding: 8px; background: var(--card); resize: vertical; font-size: .88rem; }
 .swot-grid .s { background: var(--good-soft); } .swot-grid .w { background: var(--warn-soft); } .swot-grid .o { background: var(--accent-soft); } .swot-grid .t { background: var(--bad-soft); }
 
+/* ---------- analytics widgets ---------- */
+.chart-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.chart-scroll svg.chart { min-width: 560px; }
+.dt-node { stroke-width: 2; }
+.dt-d { fill: var(--accent-soft); stroke: var(--accent); }
+.dt-c { fill: var(--warn-soft); stroke: var(--warn); }
+.dt-e { fill: var(--muted); }
+.dt-edge { fill: none; stroke: var(--line); stroke-width: 2.5; }
+.dt-edge.on { stroke: var(--good); stroke-width: 4; }
+.dt-val { fill: var(--ink); font: 700 11.5px var(--body); paint-order: stroke; stroke: var(--card); stroke-width: 4px; }
+.dt-lab { fill: var(--ink-2); font: 600 11px var(--body); paint-order: stroke; stroke: var(--card); stroke-width: 4px; }
+.reg-table { display: grid; gap: 6px; }
+.reg-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; gap: 6px; align-items: center; }
+.reg-row input.num { width: 100%; }
+.reg-row .dm-name { font-size: .78rem; }
+.chart .resid { stroke: var(--bad); stroke-dasharray: 3 3; opacity: .6; }
+.chart .fit { stroke: var(--accent); stroke-width: 3; }
+.chart .dot { fill: var(--accent-2); stroke: var(--card); stroke-width: 2; }
+.zopa-line { position: relative; min-width: 520px; height: 150px; margin: 10px 44px 54px; border-bottom: 3px solid var(--line); }
+.zopa-band { position: absolute; bottom: 0; height: 46px; display: grid; place-items: center; background: var(--good-soft); border: 2px solid var(--good); border-bottom: 0; border-radius: 10px 10px 0 0; color: var(--good); font-weight: 800; font-size: .8rem; transition: all .4s; }
+.zopa-pin { position: absolute; bottom: -38px; transform: translateX(-50%); display: grid; justify-items: center; font-size: .72rem; color: var(--ink-2); white-space: nowrap; transition: left .4s; }
+.zopa-pin::before { content: ''; width: 2px; height: 14px; background: currentColor; margin-bottom: 2px; }
+.zopa-pin b { font-size: .7rem; text-transform: uppercase; letter-spacing: .04em; }
+.zopa-pin.seller { color: var(--accent); } .zopa-pin.buyer { color: var(--accent-2); }
+.zopa-pin.top { bottom: auto; top: 0; color: var(--warn); }
+.zopa-pin.top::before { order: 3; margin: 2px 0 0; }
+.zopa-deal { position: absolute; bottom: 52px; transform: translateX(-50%); font-size: 1.3rem; color: var(--good); transition: left .4s; }
+.bg-board { overflow-x: auto; }
+.bg-grid { display: grid; grid-template-columns: 1.3fr repeat(4, minmax(0, 1fr)); gap: 4px 8px; font-size: .82rem; font-variant-numeric: tabular-nums; min-width: 320px; }
+.bg-grid > b { font-size: .72rem; color: var(--muted); text-transform: uppercase; letter-spacing: .03em; }
+.bg-grid .me { font-weight: 800; color: var(--accent); }
+.bg-grid .bad { color: var(--bad); font-weight: 700; }
+.bg-status { font-size: .9rem; font-weight: 600; }
+label.check { display: flex; gap: 8px; align-items: center; font-size: .86rem; color: var(--ink-2); cursor: pointer; }
+label.check input { width: 18px; height: 18px; accent-color: var(--accent); }
+select { font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 9px; padding: 7px 10px; }
+
 /* ---------- toolkit ---------- */
 .tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
 .tool-card { display: flex; flex-direction: column; gap: 4px; padding: 18px; border-radius: var(--r); background: var(--card); border: 1px solid var(--line); color: var(--ink); transition: transform .2s, border-color .2s; }

@@ -230,6 +230,7 @@ MBA.addTrack({
           explain: `The numerator is the signal; the denominator (the standard error) is the noise. A |t| of about 2 or more is significant at the 5% level for reasonable sample sizes. The "t" comes from the Student’s t distribution, which allows for the extra uncertainty of estimating s from small samples.`,
           example: `Reps historically sell 50 units a month. After new training, 64 reps average 52.5 with s = 8. SE = 8 ÷ √64 = 1. t = (52.5 − 50) ÷ 1 = <b>2.5</b>, p ≈ 0.015. Reject H₀: the training very probably helps. The 95% CI for the new mean is about 50.5 to 54.5.`
         },
+        { type: 'interactive', widget: 'hypothesis-test', title: 'Run the test yourself', note: 'Keep both averages fixed and raise the sample sizes from 120 to 600. Watch the p-value fall and the confidence interval narrow: same difference, more evidence.' },
         {
           type: 'matrix', name: 'The two ways to be wrong', xLabel: 'What is actually true →', yLabel: 'What you decide →',
           cells: [
@@ -313,6 +314,7 @@ MBA.addTrack({
           explain: `<b>a</b> (intercept) is the predicted Y when X = 0. <b>b</b> (slope or coefficient) is the change in Y for a one-unit change in X. Ordinary least squares picks a and b to minimise the sum of squared errors. In simple regression, R² = r².`,
           example: `Monthly sales ($k) regressed on ad spend ($k): Sales = 120 + 3.5 × Ads, R² = 0.49. At $40k of ads, predicted sales = 120 + 140 = <b>$260k</b>. Each extra $1k of ads is associated with $3.5k of sales. R² = 0.49 means ads explain about half the month-to-month variation (so r = 0.7).`
         },
+        { type: 'interactive', widget: 'regression', title: 'Fit a line to real-looking data', note: 'Click "Random outlier" twice and watch the slope and R² move. Then set the forecast X beyond your data and read the extrapolation warning.' },
         {
           type: 'framework', name: 'Reading a multiple regression output', by: 'Standard econometrics practice', when: 'Whenever an analyst hands you a table of coefficients',
           steps: [
@@ -489,6 +491,7 @@ MBA.addTrack({
           explain: `EVPI is the ceiling on what <b>any</b> research, test or consultant can be worth. Real (imperfect) information is worth less: its value is the expected value of sample information (EVSI), computed with Bayes’ rule.`,
           example: `Launch: 40% success (+$5M), 60% failure (−$2M). EV(launch) = 2.0 − 1.2 = +$0.8M; EV(don’t) = 0, so launch. With perfect foresight you would launch only on success: 0.4 × 5 = $2.0M. <b>EVPI = 2.0 − 0.8 = $1.2M.</b> Never pay more than $1.2M for market research on this decision.`
         },
+        { type: 'interactive', widget: 'decision-tree', title: 'Roll back a launch decision', note: 'Lower the test accuracy to 55% — the test stops being worth buying. Then raise the failure loss and see the value of information climb.' },
         {
           type: 'text', title: 'Worked example: is a test market worth it?',
           html: `<p>Continue the launch above. A test market costs $0.3M. It is imperfect: it says "positive" for 80% of products that will succeed and for 20% that will fail.</p><ul><li>P(positive) = 0.4 × 0.8 + 0.6 × 0.2 = 0.32 + 0.12 = <b>0.44</b>.</li><li>If positive: P(success) = 0.32 ÷ 0.44 ≈ 0.727. EV(launch) = 0.727 × 5 − 0.273 × 2 ≈ <b>+$3.09M</b> → launch.</li><li>If negative (0.56): P(success) = 0.08 ÷ 0.56 ≈ 0.143. EV(launch) = 0.143 × 5 − 0.857 × 2 ≈ <b>−$1.0M</b> → don’t launch (0).</li><li>EV with test = 0.44 × 3.09 + 0.56 × 0 ≈ <b>$1.36M</b>.</li><li><b>EVSI = 1.36 − 0.8 = $0.56M</b> &gt; $0.3M cost. Run the test: net EV $1.06M vs $0.8M launching blind.</li></ul><p>The test is valuable because a negative result <b>changes the decision</b>.</p>`
@@ -578,6 +581,7 @@ MBA.addTrack({
             { label: '5. Read the distribution', desc: 'Report mean, P(loss), 5th and 95th percentiles (P5 / P95) and which inputs drive most of the variance (a tornado chart).' }
           ]
         },
+        { type: 'interactive', widget: 'monte-carlo', title: 'Simulate 2,000 possible years', note: 'Leave every average alone and raise the share uncertainty from 40% to 80%. The median barely moves, but the chance of a loss jumps.' },
         {
           type: 'callout', kind: 'example', title: 'What a simulation tells the board (illustrative)',
           html: `<p>A new plant’s single-point NPV is +$20M. After 10,000 simulated runs: mean NPV +$14M (lower, because delays and overruns are asymmetric), P5 = −$18M, P95 = +$40M, and a <b>27% chance of a negative NPV</b>. The tornado chart shows construction delay drives most of the risk — so the team negotiates a fixed-price, penalty-backed construction contract before approval.</p>`
