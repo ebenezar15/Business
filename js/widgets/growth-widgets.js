@@ -228,8 +228,8 @@
       });
       root.appendChild(grid);
       root.appendChild(h('div.row-actions',
-        h('button.btn.ghost', { onclick: function () { window.print(); } }, '🖨️ Print / save as PDF'),
-        h('button.btn.ghost', { onclick: function () { if (confirm('Clear all boxes?')) { s.lab[storeKey] = {}; MBA.store.save(); root.innerHTML = ''; MBA.widgets[storeKey].render(root); } } }, 'Clear')));
+        U.embedded ? h('span') : h('button.btn.ghost', { onclick: function () { window.print(); } }, '🖨️ Print / save as PDF'),
+        U.confirmBtn('Clear', 'Click again to clear', function () { s.lab[storeKey] = {}; MBA.store.save(); root.innerHTML = ''; MBA.widgets[storeKey].render(root); })));
       root.appendChild(h('p.w-insight', 'Saved automatically in this browser.'));
     };
   }

@@ -113,7 +113,7 @@
   };
   function certificate(t) {
     var name = MBA.store.get().name || 'Learner';
-    return h('section.cert', h('p.eyebrow', 'Certificate of completion'), h('h2', name), h('p', 'has completed the ' + t.title + ' track of MBA Studio'), h('p.muted', new Date().toLocaleDateString()), h('button.btn.ghost.small', { onclick: function () { window.print(); } }, '🖨️ Print'));
+    return h('section.cert', h('p.eyebrow', 'Certificate of completion'), h('h2', name), h('p', 'has completed the ' + t.title + ' track of MBA Studio'), h('p.muted', new Date().toLocaleDateString()), U.embedded ? null : h('button.btn.ghost.small', { onclick: function () { window.print(); } }, '🖨️ Print'));
   }
 
   /* ================= LESSON ================= */
@@ -222,7 +222,7 @@
       gaps.length ? h('section.report-sec.warnbox', h('h3', '❓ Still unclear'), h('ul', gaps.map(function (q) { return h('li', q.q); }))) : null,
       h('section.report-sec', h('h3', '📘 Learn next'), h('div', recs.filter(function (x, i, a) { return a.indexOf(x) === i; }).map(function (tid) { var t = MBA.track(tid); return t ? h('a.tag', { href: '#/track/' + tid }, t.icon + ' ' + t.title) : null; }),
         h('a.tag', { href: '#/roadmap' }, '🗺️ Business roadmap'), h('a.tag', { href: '#/tool/idea-score' }, '💡 Score this idea'), h('a.tag', { href: '#/tool/bmc' }, '🗺️ Business Model Canvas'))),
-      h('div.row-actions', h('button.btn.ghost', { onclick: restart }, '✏️ Edit answers'), h('button.btn', { onclick: function () { window.print(); } }, '🖨️ Print / save PDF')));
+      h('div.row-actions', h('button.btn.ghost', { onclick: restart }, '✏️ Edit answers'), U.embedded ? null : h('button.btn', { onclick: function () { window.print(); } }, '🖨️ Print / save PDF')));
     if (!A._rewarded) { A._rewarded = 1; MBA.store.save(); setTimeout(function () { MBA.store.addXP(40, 'Idea plan created'); U.confetti(); }, 300); }
     return node;
   }
@@ -284,7 +284,7 @@
         return h('li', h('b', f.q.d + ': '), f.q.fix, t ? h('a.tag', { href: '#/track/' + t.id }, t.icon + ' ' + t.title) : null);
       }))));
       else if (answered) result.appendChild(h('p.muted', 'No critical gaps among answered questions. 🎉'));
-      if (answered === DIAG.length) result.appendChild(h('button.btn.ghost.small', { onclick: function () { window.print(); } }, '🖨️ Print report'));
+      if (answered === DIAG.length && !U.embedded) result.appendChild(h('button.btn.ghost.small', { onclick: function () { window.print(); } }, '🖨️ Print report'));
     }
     upd();
     return page;
@@ -477,13 +477,13 @@
         return done.length ? h('ul', done.map(function (t) { return h('li', h('a', { href: '#/track/' + t.id }, t.icon + ' ' + t.title)); })) : h('p.muted', 'Complete every lesson in a track to earn its certificate.');
       })()),
       h('div.row-actions',
-        h('button.btn.ghost.small', { onclick: function () {
+        U.embedded ? null : h('button.btn.ghost.small', { onclick: function () {
           var blob = new Blob([JSON.stringify(s, null, 1)], { type: 'application/json' }), a = h('a', { href: URL.createObjectURL(blob), download: 'mba-studio-progress.json' }); document.body.appendChild(a); a.click(); a.remove();
         } }, '⬇️ Export progress'),
         h('label.btn.ghost.small', '⬆️ Import', h('input', { type: 'file', accept: 'application/json', style: { display: 'none' }, onchange: function (e) {
           var f = e.target.files[0]; if (!f) return; var r = new FileReader(); r.onload = function () { try { localStorage.setItem('mba-studio-v1', r.result); location.reload(); } catch (err) { U.toast('Import failed'); } }; r.readAsText(f);
         } })),
-        h('button.btn.ghost.small.danger', { onclick: function () { if (confirm('Erase all progress, notes and answers?')) { MBA.store.reset(); location.hash = '#/'; location.reload(); } } }, 'Reset everything')));
+        U.confirmBtn('Reset everything', 'Click again to erase all progress', function () { MBA.store.reset(); location.hash = '#/'; location.reload(); }, 'danger')));
   };
 
   /* ================= SEARCH ================= */

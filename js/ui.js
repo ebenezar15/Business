@@ -258,7 +258,20 @@
     return node;
   }
 
+  /* In-page confirmation: first click arms the button, second click within 4s runs the action. */
+  function confirmBtn(label, armed, action, cls) {
+    var b = h('button.btn.ghost.small' + (cls ? '.' + cls : ''), label), t = null;
+    b.addEventListener('click', function () {
+      if (b.classList.contains('armed')) { clearTimeout(t); b.classList.remove('armed'); b.textContent = label; action(); return; }
+      b.classList.add('armed'); b.textContent = armed;
+      t = setTimeout(function () { b.classList.remove('armed'); b.textContent = label; }, 4000);
+    });
+    return b;
+  }
+  var embedded = (function () { try { return window.self !== window.top; } catch (e) { return true; } })();
+
   MBA.ui = {
+    confirmBtn: confirmBtn, embedded: embedded,
     esc: esc, h: h, fmt: fmt, money: money, pct: pct, toast: toast, confetti: confetti, reveal: reveal,
     countUp: countUp, lineChart: lineChart, barChart: barChart, radar: radar, slider: slider, numInput: numInput, stat: stat
   };
