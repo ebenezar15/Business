@@ -8,15 +8,15 @@ All content is original. MBA Studio is not affiliated with any business school.
 
 ## Download and use on any device
 
-**[⬇️ Download MBA-Studio.html](https://github.com/ebenezar15/Business/raw/claude/gallant-mccarthy-30h9kg/dist/MBA-Studio.html)** (one file, about 2.5 MB). Everything is built in and it works offline.
+**[⬇️ Download MBA-Studio.zip](https://github.com/ebenezar15/Business/raw/claude/gallant-mccarthy-30h9kg/dist/MBA-Studio.zip)** (about 0.6 MB). Unzip it to get `MBA-Studio.html`, a single file that contains the whole app and works offline. You can also [download the HTML file directly](https://github.com/ebenezar15/Business/raw/claude/gallant-mccarthy-30h9kg/dist/MBA-Studio.html).
 
 | Device | How to open it |
 |---|---|
-| Windows, Mac, Linux, Chromebook | Download the file, then double-click it. It opens in your browser. |
-| Android | Download it, then open it from the Downloads notification or your Files app with **Chrome**. |
+| Windows, Mac, Linux, Chromebook | Download the zip, open it, then double-click `MBA-Studio.html`. It opens in your browser. |
+| Android | Download the zip, extract it in your Files app, then open `MBA-Studio.html` with **Chrome**. |
 | iPhone / iPad | iOS previews downloaded HTML files without running them, so use the online version instead. In Safari, tap **Share → Add to Home Screen** to open it like an app. |
 
-If the download link shows code instead of saving the file, right-click it (or long-press on a phone) and choose **Save link as / Download linked file**.
+If the direct HTML link shows code instead of saving the file, right-click it (or long-press on a phone) and choose **Save link as / Download linked file**, or use the zip.
 
 Progress is saved in the browser you open the file with. Use **Progress → Export** to move it to another device.
 
