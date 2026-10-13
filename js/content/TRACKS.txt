@@ -1,0 +1,19 @@
+order | id | stage | title | color
+1 | business-101 | 1 | Business 101 | #6366f1
+2 | economics | 1 | Economics for Business | #8b5cf6
+3 | ideation | 2 | Ideation & Opportunity | #f59e0b
+4 | validation | 2 | Validation & Customer Discovery | #f97316
+5 | business-model | 2 | Business Models & Business Engineering | #ef4444
+6 | marketing | 3 | Marketing & Brand | #ec4899
+7 | sales | 3 | Sales & Business Development | #d946ef
+8 | pricing | 3 | Pricing & Revenue Models | #14b8a6
+9 | finance | 3 | Finance & Accounting | #0ea5e9
+10 | operations | 3 | Operations & Supply Chain | #64748b
+11 | people | 3 | People, HR & Leadership | #22c55e
+12 | technology | 3 | Technology, Data & AI | #06b6d4
+13 | growth | 4 | Growth & Product-Led Strategy | #84cc16
+14 | strategy | 4 | Strategy & Competitive Advantage | #3b82f6
+15 | investment | 4 | Investment, Valuation & Fundraising | #eab308
+16 | scaling | 4 | Scaling & Organisation Design | #f43f5e
+17 | legal | 4 | Legal, Governance & Risk | #a16207
+18 | csuite | 4 | C-Suite, Consulting & Startup Advisory | #0f766e
