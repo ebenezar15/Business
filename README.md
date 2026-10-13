@@ -8,7 +8,7 @@ All content is original. MBA Studio is not affiliated with any business school.
 
 ## Download and use on any device
 
-**[⬇️ Download MBA-Studio.zip](https://github.com/ebenezar15/Business/raw/claude/gallant-mccarthy-30h9kg/dist/MBA-Studio.zip)** (about 0.6 MB). Unzip it to get `MBA-Studio.html`, a single file that contains the whole app and works offline. You can also [download the HTML file directly](https://github.com/ebenezar15/Business/raw/claude/gallant-mccarthy-30h9kg/dist/MBA-Studio.html).
+**[⬇️ Download MBA-Studio.zip](https://github.com/ebenezar15/Business/raw/claude/gallant-mccarthy-30h9kg/dist/MBA-Studio.zip)** (about 0.9 MB). Unzip it to get `MBA-Studio.html`, a single file that contains the whole app and works offline. You can also [download the HTML file directly](https://github.com/ebenezar15/Business/raw/claude/gallant-mccarthy-30h9kg/dist/MBA-Studio.html).
 
 | Device | How to open it |
 |---|---|
