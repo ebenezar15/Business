@@ -148,6 +148,12 @@
     var qs = lesson.quiz || [], answered = 0, correct = 0;
     var score = h('div.quiz-score');
     var wrap = h('section.quiz', h('h2', '📝 Quick check'), h('p.muted', 'Answer to lock in what you learned. +10 XP per correct answer.'));
+    qs = qs.map(function (q) {
+      // shuffle options so the right answer's position carries no signal
+      var order = q.options.map(function (_, i) { return i; });
+      for (var i = order.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), t = order[i]; order[i] = order[j]; order[j] = t; }
+      return { q: q.q, explain: q.explain, options: order.map(function (i) { return q.options[i]; }), answer: order.indexOf(q.answer) };
+    });
     qs.forEach(function (q, qi) {
       var exp = h('div.q-explain');
       var opts = h('div.q-opts', q.options.map(function (o, oi) {
