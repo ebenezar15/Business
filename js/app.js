@@ -3,19 +3,30 @@
   'use strict';
   var MBA = window.MBA, U = MBA.ui, h = U.h, P = MBA.pages;
 
+  /* Strings are group labels; arrays are [href, icon, label]. */
   var NAV = [
     ['#/', '🏠', 'Home'],
+    'Learn',
     ['#/path', '🧭', 'Learning path'],
-    ['#/roadmap', '🗺️', 'Business roadmap'],
-    ['#/lab', '💡', 'Idea Clarity Lab'],
-    ['#/advisor', '🩺', 'Health diagnostic'],
-    ['#/toolkit', '🧰', 'Toolkit'],
+    ['#/placement', '🎯', 'Placement test'],
+    ['#/careers', '🧳', 'Career paths'],
+    ['#/review', '🔁', 'Review flashcards'],
+    ['#/practice', '🎲', 'Daily drill'],
+    'Practise',
     ['#/cases', '📚', 'Case library'],
     ['#/arena', '🏆', 'Challenge arena'],
+    ['#/sim', '🏭', 'Company simulation'],
+    ['#/toolkit', '🧰', 'Toolkit'],
+    'Build a business',
+    ['#/lab', '💡', 'Idea Clarity Lab'],
+    ['#/roadmap', '🗺️', 'Business roadmap'],
+    ['#/advisor', '🩺', 'Health diagnostic'],
+    ['#/capstone', '🎓', 'Capstone plan'],
+    'Reference',
     ['#/frameworks', '🧠', 'Frameworks'],
-    ['#/practice', '🎲', 'Daily drill'],
     ['#/glossary', '📖', 'Glossary'],
     ['#/trends', '📡', 'Trends 2026–27'],
+    'You',
     ['#/notes', '🗒️', 'Notes & Bookmarks'],
     ['#/profile', '👤', 'Progress']
   ];
@@ -33,7 +44,7 @@
       case 'toolkit': return P.toolkit();
       case 'tool': return P.tool(b);
       case 'cases': return P.cases();
-      case 'case': return P.case(b);
+      case 'case': return parts[2] === 'discuss' ? P.discuss(b) : P.case(b);
       case 'arena': return P.arena();
       case 'challenge': return P.challenge(b);
       case 'glossary': return P.glossary();
@@ -42,6 +53,11 @@
       case 'trends': return P.trends();
       case 'profile': return P.profile();
       case 'notes': return P.notes();
+      case 'sim': return P.sim();
+      case 'review': return P.review();
+      case 'placement': return P.placement();
+      case 'capstone': return P.capstone();
+      case 'careers': return P.careers(b);
       case 'search': return P.search(b);
       default: return P.notFound();
     }
@@ -61,6 +77,7 @@
     document.querySelectorAll('.nav a').forEach(function (a) {
       var href = a.getAttribute('href'), cur = '#/' + (parts[0] || '');
       a.classList.toggle('active', href === cur || (href === '#/path' && /^(track|lesson)$/.test(parts[0])) || (href === '#/toolkit' && parts[0] === 'tool') || (href === '#/cases' && parts[0] === 'case') || (href === '#/arena' && parts[0] === 'challenge'));
+      if (a.classList.contains('active')) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
     });
     var h1 = main.querySelector('h1');
     document.title = (h1 && parts.length ? h1.textContent + ' · ' : '') + 'MBA Studio';
@@ -94,7 +111,7 @@
     var app = h('div.app',
       h('aside.side',
         h('a.brand', { href: '#/' }, h('span.logo', 'M'), h('span', h('b', 'MBA Studio'), h('small', 'Zero → Boardroom'))),
-        h('nav.nav', NAV.map(function (n) { return h('a', { href: n[0] }, h('span', n[1]), n[2]); })),
+        h('nav.nav', { 'aria-label': 'Main' }, NAV.map(function (n) { return typeof n === 'string' ? h('span.nav-group', n) : h('a', { href: n[0] }, h('span', { 'aria-hidden': 'true' }, n[1]), n[2]); })),
         h('div#hud'),
         h('button.theme-btn', { onclick: function () {
           var cur = document.documentElement.getAttribute('data-theme');

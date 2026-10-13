@@ -148,11 +148,11 @@
     var qs = lesson.quiz || [], answered = 0, correct = 0;
     var score = h('div.quiz-score');
     var wrap = h('section.quiz', h('h2', '📝 Quick check'), h('p.muted', 'Answer to lock in what you learned. +10 XP per correct answer.'));
-    qs = qs.map(function (q) {
+    qs = qs.map(function (q, qIndex) {
       // shuffle options so the right answer's position carries no signal
       var order = q.options.map(function (_, i) { return i; });
       for (var i = order.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), t = order[i]; order[i] = order[j]; order[j] = t; }
-      return { q: q.q, explain: q.explain, options: order.map(function (i) { return q.options[i]; }), answer: order.indexOf(q.answer) };
+      return { q: q.q, explain: q.explain, options: order.map(function (i) { return q.options[i]; }), answer: order.indexOf(q.answer), ref: q.ref || (lesson.ref === false ? null : lesson.id + ':' + qIndex) };
     });
     qs.forEach(function (q, qi) {
       var exp = h('div.q-explain');
@@ -161,6 +161,7 @@
           if (card.classList.contains('done')) return;
           card.classList.add('done'); answered++;
           var right = oi === q.answer; if (right) { correct++; MBA.store.addXP(10, 'Correct answer'); }
+          if (!right && q.ref) { var st = MBA.store.get(); st.missed[q.ref] = Date.now(); MBA.store.save(); }
           opts.children[q.answer].classList.add('right'); if (!right) this.classList.add('wrong');
           exp.innerHTML = ''; exp.appendChild(h('p', h('b', right ? '✅ Correct. ' : '❌ Not quite. '), h('span', { html: q.explain || '' })));
           if (answered === qs.length) {
@@ -226,6 +227,7 @@
       h('div.lesson-meta', h('span.pill.lvl-' + (l.level || 'Beginner').toLowerCase(), l.level || 'Beginner'), h('span.pill', '⏱ ' + (l.minutes || 10) + ' min'), done ? h('span.pill.good', '✓ Completed') : null,
         bookmarkBtn('lesson:' + l.id, t.icon + ' ' + l.title, '#/lesson/' + l.id)),
       h('h1', l.title), l.hook ? h('p.hook', l.hook) : null));
+    if (MBA.store.isTested(l.id) && !done) page.appendChild(h('aside.callout.tip', h('div.callout-head', h('span', '🎯'), h('b', 'Tested out')), h('p', 'Your placement test showed you know this. Skim it, take the quiz, or mark it complete to count it towards a certificate.')));
     if (l.eli5) page.appendChild(h('section.eli5.reveal', h('div.eli5-badge', '🧒 Explain it simply'), html(l.eli5)));
     var body = h('div.lesson-body');
     (l.blocks || []).forEach(function (b) { body.appendChild(block(b, l)); });

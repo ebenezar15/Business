@@ -50,7 +50,8 @@
   var KEY = 'mba-studio-v1';
   var mem = null;
   function blank() {
-    return { done: {}, quiz: {}, xp: 0, days: {}, checks: {}, notes: {}, cases: {}, challenges: {}, lab: {}, bookmarks: {}, theme: null, name: '' };
+    return { done: {}, quiz: {}, xp: 0, days: {}, checks: {}, notes: {}, cases: {}, challenges: {}, lab: {}, bookmarks: {}, theme: null, name: '',
+      missed: {}, srs: {}, srsDay: {}, tested: {}, discuss: {}, sim: null, placement: null };
   }
   function load() {
     if (mem) return mem;
@@ -75,6 +76,7 @@
       s.done[id] = Date.now(); save(); this.addXP(50, 'Lesson complete'); return true;
     },
     isDone: function (id) { return !!load().done[id]; },
+    isTested: function (id) { return !!load().tested[id]; },
     setCheck: function (key, val) { var s = load(); if (val) s.checks[key] = 1; else delete s.checks[key]; save(); },
     isChecked: function (key) { return !!load().checks[key]; },
     streak: function () {

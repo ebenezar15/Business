@@ -249,7 +249,8 @@
         }))));
       var shareChart = h('div.w-chart'), cashChart = h('div.w-chart');
       var colors = ['var(--accent)'].concat(RIVALS.map(function (r) { return r.color; }));
-      U.lineChart(shareChart, { series: names.map(function (n, i) { return { name: n, color: colors[i], points: st.hist.map(function (q) { var r = i ? q.rivals[i - 1] : q.me; return [q.q, r.share * 100]; }) }; }), xLabel: 'Quarter', yMin: 0, xMin: 1, yFmt: function (v) { return Math.round(v) + '%'; }, xFmt: function (v) { return 'Q' + Math.round(v); }, label: 'Market share by quarter' });
+      if (st.hist.length < 2) shareChart.appendChild(h('p.muted', 'The share chart appears after quarter 2.'));
+      else U.lineChart(shareChart, { series: names.map(function (n, i) { return { name: n, color: colors[i], points: st.hist.map(function (q) { var r = i ? q.rivals[i - 1] : q.me; return [q.q, r.share * 100]; }) }; }), xLabel: 'Quarter', yMin: 0, xMin: 1, yFmt: function (v) { return Math.round(v) + '%'; }, xFmt: function (v) { return 'Q' + Math.round(v); }, label: 'Market share by quarter' });
       U.barChart(cashChart, { bars: st.hist.map(function (q) { return { label: 'Q' + q.q, value: q.me.cash, color: q.me.cash < 0 ? 'var(--bad)' : 'var(--accent)' }; }), yFmt: money, label: 'Your cash at quarter end' });
       var me = last.me, msgs = [];
       if (me.lost > 1) msgs.push('You turned away ' + Math.round(me.lost).toLocaleString() + ' subscribers because you lacked people — capacity is ' + SIM.capPerHead.toLocaleString() + ' per employee.');
@@ -321,7 +322,7 @@
     var stats = h('div.stats', stat('Due now', String(due.length)), stat('New today', String(Math.min(newLeft, fresh.length))), stat('Learned', String(learned)), stat('Missed questions', String(Object.keys(s.missed).length)));
     page.appendChild(stats);
     var area = h('div.srs'); page.appendChild(area);
-    var idx = 0, flipped = false;
+    var idx = 0, flipped = false, interacted = false;   // only move focus after the learner starts reviewing
     function stat(l, v) { return h('div.stat', h('span.stat-l', l), h('b.stat-v', v)); }
     function draw() {
       area.innerHTML = '';
@@ -336,17 +337,19 @@
         h('div.srs-front', { html: c.front }),
         flipped ? h('div.srs-back', { html: c.back }) : h('p.muted', 'Think of the answer, then press Space or tap to reveal.'),
         flipped ? h('a.g-src', { href: '#/lesson/' + c.src.lesson.id }, 'From: ' + c.src.track.icon + ' ' + c.src.lesson.title) : null);
-      card.addEventListener('click', function (e) { if (e.target.tagName !== 'A' && !flipped) { flipped = true; draw(); } });
+      card.addEventListener('click', function (e) { if (e.target.tagName !== 'A' && !flipped) { interacted = true; flipped = true; draw(); } });
+      card.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !flipped) { e.preventDefault(); interacted = true; flipped = true; draw(); } });
       area.appendChild(card);
       if (flipped) {
         var grades = [['Again', 1, 'bad'], ['Hard', 3, 'warn'], ['Good', 4, ''], ['Easy', 5, 'good']];
         area.appendChild(h('div.srs-grades', { role: 'group', 'aria-label': 'How well did you know it?' }, grades.map(function (g, i) {
           return h('button.btn' + (g[2] ? '.g-' + g[2] : ''), { type: 'button', onclick: function () { grade(g[1]); } }, h('kbd', String(i + 1)), ' ' + g[0]);
         })));
-      } else area.appendChild(h('div.srs-grades', h('button.btn', { type: 'button', onclick: function () { flipped = true; draw(); } }, h('kbd', 'Space'), ' Show answer')));
-      setTimeout(function () { var f = area.querySelector(flipped ? '.srs-grades .btn' : '.srs-card'); if (f) f.focus(); }, 0);
+      } else area.appendChild(h('div.srs-grades', h('button.btn', { type: 'button', onclick: function () { interacted = true; flipped = true; draw(); } }, h('kbd', 'Space'), ' Show answer')));
+      if (interacted) setTimeout(function () { var f = area.querySelector(flipped ? '.srs-grades .btn' : '.srs-card'); if (f) f.focus(); }, 0);
     }
     function grade(q) {
+      interacted = true;
       var c = queue[idx], wasNew = !s.srs[c.id];
       s.srs[c.id] = sm2(s.srs[c.id], q);
       if (wasNew) s.srsDay.newSeen++;
@@ -359,7 +362,7 @@
     function onKey(e) {
       if (!document.body.contains(area)) { document.removeEventListener('keydown', onKey); return; }
       if (/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)) return;
-      if (e.key === ' ' && !flipped && idx < queue.length) { e.preventDefault(); flipped = true; draw(); }
+      if (e.key === ' ' && !flipped && idx < queue.length && !/^(A|BUTTON)$/.test(e.target.tagName)) { e.preventDefault(); interacted = true; flipped = true; draw(); }
       else if (flipped && /^[1-4]$/.test(e.key)) { e.preventDefault(); grade([1, 3, 4, 5][+e.key - 1]); }
     }
     document.addEventListener('keydown', onKey);

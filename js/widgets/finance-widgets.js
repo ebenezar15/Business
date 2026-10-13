@@ -16,6 +16,17 @@
   }
   MBA.widgetShell = shell;
 
+  /* Persist a widget's slider values (used by the capstone plan). Restores saved values, returns a save function. */
+  function remember(id, sliders) {
+    var lab = MBA.store.get().lab, saved = lab['w:' + id];
+    if (saved) Object.keys(sliders).forEach(function (k) { if (saved[k] != null) sliders[k].set(saved[k]); });
+    return function () {
+      var v = {}; Object.keys(sliders).forEach(function (k) { v[k] = sliders[k].get(); });
+      lab['w:' + id] = v; MBA.store.save();
+    };
+  }
+  MBA.rememberWidget = remember;
+
   var $ = function (v) { return U.fmt(v, { cur: '$', compact: true, d: Math.abs(v) >= 100 || Math.abs(v) % 1 === 0 ? 0 : 2 }); };
   var $2 = function (v) { return U.fmt(v, { cur: '$', d: 2 }); };
 
@@ -63,7 +74,9 @@
       var cac = U.slider('Customer acquisition cost (CAC)', { min: 10, max: 3000, step: 10, value: 400, fmt: $ }, upd);
       var sL = U.stat('Lifetime value (LTV)'), sR = U.stat('LTV : CAC'), sPb = U.stat('CAC payback'), sLife = U.stat('Avg. lifetime');
       var o = shell(root, [arpu, gm, churn, cac], [sL, sR, sPb, sLife]);
+      var persist = remember('unit-economics', { arpu: arpu, gm: gm, churn: churn, cac: cac }), ready = false;
       function upd() {
+        if (ready) persist();
         var A = arpu.get(), G = gm.get() / 100, c = churn.get() / 100, C = cac.get();
         var life = 1 / c, ltv = A * G * life, ratio = ltv / C, pb = C / (A * G);
         sL.set(ltv, $); sLife.set(life, function (v) { return v.toFixed(1) + ' mo'; });
@@ -78,7 +91,7 @@
           : ratio >= 1 ? '⚠️ Profitable per customer but thin (' + ratio.toFixed(1) + 'x). Try cutting churn — it has the biggest lever on LTV.'
           : '🚨 You lose money on every customer. Growing faster would only burn cash faster.';
       }
-      upd();
+      upd(); ready = true;
     }
   });
 
@@ -94,8 +107,10 @@
       var test = U.slider('Try a new price', { min: 5, max: 250, value: 60, fmt: $ }, upd);
       var sQ = U.stat('Units at new price'), sRev = U.stat('Revenue change'), sPr = U.stat('Profit change'), sOpt = U.stat('Profit-max price');
       var o = shell(root, [p0, q0, e, uc, test], [sQ, sRev, sPr, sOpt]);
+      var persist = remember('pricing-elasticity', { p0: p0, q0: q0, e: e, uc: uc, test: test }), ready = false;
       function demand(P, P0, Q0, E) { return Q0 * Math.pow(P / P0, -E); }
       function upd() {
+        if (ready) persist();
         var P0 = p0.get(), Q0 = q0.get(), E = e.get(), C = uc.get(), P = test.get();
         var Q = demand(P, P0, Q0, E), r0 = P0 * Q0, r1 = P * Q, pr0 = (P0 - C) * Q0, pr1 = (P - C) * Q;
         var opt = E > 1 ? C * E / (E - 1) : Infinity;
@@ -113,7 +128,7 @@
           ? 'Demand is <b>inelastic</b> (|E| ≤ 1): customers barely react to price, so raising price grows both revenue and profit. Real markets cap this — watch competitors and churn.'
           : 'With elasticity −' + E.toFixed(1) + ', a 10% price rise cuts volume by about ' + (E * 10).toFixed(0) + '%. The profit-maximising price is <b>' + $2(opt) + '</b> (formula: cost × E ÷ (E − 1)). Notice revenue and profit peak at different prices.';
       }
-      upd();
+      upd(); ready = true;
     }
   });
 

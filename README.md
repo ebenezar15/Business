@@ -1,6 +1,8 @@
 # MBA Studio — the interactive business school
 
-Learn business from **zero knowledge to C-suite and startup-advisor level**. It covers what top B-schools teach (strategy, finance, marketing, operations, people, economics, investing) and how the best operators run companies in 2025–26. Every concept is explained simply, then made interactive and tested with real cases.
+Learn business from **zero knowledge to C-suite and startup-advisor level**. The curriculum covers the ground of a two-year MBA core: strategy, finance, marketing, operations, people, economics, data and decision analysis, negotiation, ethics, global business and investing. It also covers how the best operators run companies in 2026. Every concept is explained simply, then made interactive and tested with real cases.
+
+All content is original. MBA Studio is not affiliated with any business school.
 
 **Run it:** open `index.html` in any browser. There's no install, no build step and no server, and it works offline (only the web fonts need a connection). To host it, enable GitHub Pages on this repo.
 
@@ -8,35 +10,38 @@ Learn business from **zero knowledge to C-suite and startup-advisor level**. It 
 
 | Area | What you get |
 |---|---|
-| 🧭 **Learning path** | 4 stages, 18 tracks and 100+ lessons, ordered so each one builds on the last: **Foundations → Build → Core Functions → Grow & Lead** |
-| 📘 **Lessons** | Each lesson has a hook, an "explain it simply" analogy, animated frameworks you step through, clickable 2×2 matrices, formulas with worked examples, comparison tables, flashcards, timelines, a case study revealed step by step, a "what would you do?" scenario, a checklist, key terms, a quiz, and a challenge with hints and a model answer |
-| 🧰 **Toolkit** | 24 live simulators: break-even, LTV:CAC, price elasticity, supply & demand, NPV/IRR, P&L waterfall, runway, cash conversion cycle, Rule of 40, cap table & dilution, valuation, EOQ, funnel, TAM/SAM/SOM, retention curves, viral K-factor, A/B significance, Five Forces, idea scorecard, decision matrix, SWOT, Business Model Canvas, OKRs |
-| 🗺️ **Business roadmap** | 8 phases (Idea → Validate → Plan → MVP → Launch → Run → Grow → Scale), each with steps, checklists that save as you tick them, metrics, pitfalls, tools and exit criteria |
-| 💡 **Idea Clarity Lab** | 12 guided questions turn a fuzzy idea into a one-page plan, a clarity score, a validation plan and the lessons to take next |
-| 🩺 **Health diagnostic** | 16 advisor-grade questions produce a scored report, a radar chart and prioritised fixes. Use it on your own business or on a startup you advise |
-| 📚 **Case library** | 30 HBS-style decision cases. You make the call, then see what actually happened |
-| 🏆 **Challenge arena** | Consulting-style case problems sorted by role (CEO, CFO, CMO, COO, Founder, Advisor…), with data tables, hints, model answers and a self-scoring rubric |
-| 🧠 **Frameworks library** · 📖 **Glossary** · 🎲 **Daily drill** · 📡 **Trends 2025–26** | A searchable cheat sheet of every framework and formula, every key term in plain English, random practice quizzes, and the shifts reshaping business today |
-| 🏅 **Progress** | XP, ranks from *Curious Beginner* to *Board-Level Advisor*, streaks, a certificate per track, and progress export/import |
+| 🧭 **Learning path** | 5 stages, 28 tracks and 174 lessons: **Foundations → Build → Core Functions → Grow & Lead → Specialise** (electives on ESG and India) |
+| 📘 **Lessons** | Each lesson has an "explain it simply" analogy, animated frameworks, 2×2 matrices, worked formulas, flashcards, a step-by-step case study, a "what would you do?" scenario, a quiz, a challenge with a model answer, and a notes box |
+| 🧰 **Toolkit** | 32 live simulators, for example LTV:CAC, NPV/IRR, cap tables, regression, hypothesis tests, decision trees, Monte Carlo, LBO returns, FX hedging, a negotiation ZOPA planner and the beer game |
+| 🎙️ **Case discussion** | 40 decision cases. Quick mode lets you pick an option. Discussion mode (`#/case/:id/discuss`) makes you frame the problem, recommend and weigh risks in writing before you see what happened, then self-score on a 5-line rubric |
+| 🏭 **Company simulation** | Run a company for 8 quarters against 3 computer-run rivals. You set price, marketing, hiring and fundraising, and see the P&L, cash, market share and a final scorecard |
+| 🏆 **Challenge arena** | 40 consulting-style problems by role, with hints, model answers and rubric self-scoring |
+| 🔁 **Review flashcards** | Spaced repetition (SM-2 style) built from 1,066 glossary terms and every quiz question you got wrong |
+| 🎯 **Placement test** | 20 questions across all stages. Lessons you already know are marked "tested out" |
+| 🧳 **Career paths** | Ordered routes for consulting, product management, VC/IB and founders |
+| 💡 **Idea Lab → 🎓 Capstone** | The Idea Lab, Business Model Canvas, unit economics and pricing work combine into one printable business plan |
+| 🗺️ **Roadmap** · 🩺 **Health diagnostic** · 🧠 **Frameworks** · 📖 **Glossary** · 📡 **Trends 2026–27** | The step-by-step roadmap to start and scale a business, an advisor-style diagnostic, and searchable reference pages |
+| 🗒️ **Notes & Bookmarks** · 👤 **Progress** | Bookmarks, notes, XP, streaks, certificates, and progress export/import as JSON |
 
-Your progress, notes and answers are saved in your browser's `localStorage`. Nothing leaves your device.
+Your progress is saved in your browser's `localStorage` under the key `mba-studio-v1`. Nothing leaves your device.
 
 ## Project structure
 
 ```
-index.html            app entry; loads the scripts in order
-css/styles.css        all styling (light and dark themes, animations, responsive)
-js/core.js            the MBA registry plus the progress store
-js/ui.js              DOM helpers, SVG charts, toasts, confetti
-js/widgets/*.js       the 24 interactive simulators
-js/render.js          lesson and block renderers (framework stepper, matrix, quiz…)
-js/pages.js           every page (home, path, lab, advisor, arena…)
-js/app.js             app shell and hash router
-js/content/*.js       the curriculum, as data (see CONTENT_SCHEMA.md)
+index.html                 app entry; loads the scripts in order
+css/styles.css             all styling (light and dark themes, animations, responsive, print)
+js/core.js                 the MBA registry plus the progress store
+js/ui.js                   DOM helpers, SVG charts, toasts, confetti
+js/widgets/*.js            the 32 interactive simulators
+js/render.js               lesson and block renderers (frameworks, matrices, quiz…)
+js/pages.js                core pages (home, path, lab, advisor, arena, notes…)
+js/features.js             teaching features (discussion, simulation, review, placement, capstone, careers)
+js/app.js                  app shell, grouped navigation and hash router
+js/content/*.js            the curriculum, as data (see CONTENT_SCHEMA.md)
 ```
 
 ## Adding content
 
-Content is plain data. To add a lesson, track, case, challenge, roadmap step or trend, follow [`CONTENT_SCHEMA.md`](CONTENT_SCHEMA.md) and add a `<script>` tag to `index.html` if you create a new file.
+Content is plain data. To add a lesson, track, case, challenge, roadmap step or trend, follow [`CONTENT_SCHEMA.md`](CONTENT_SCHEMA.md) and add a `<script>` tag to `index.html` if you create a new file. New fields in the progress store must be added through the defaults in `blank()` in `js/core.js`, so existing progress keeps working.
 
 *Educational content only. It is not legal, tax or investment advice.*

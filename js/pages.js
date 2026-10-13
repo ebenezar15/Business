@@ -4,9 +4,12 @@
   var MBA = window.MBA, U = MBA.ui, h = U.h, RD = MBA.render;
   var P = {};
 
+  /* d counts completed or tested-out lessons (progress); dc counts completed only (certificates). */
   function trackProgress(t) {
-    var n = (t.lessons || []).length, d = (t.lessons || []).filter(function (l) { return MBA.store.isDone(l.id); }).length;
-    return { n: n, d: d, p: n ? d / n : 0 };
+    var ls = t.lessons || [], n = ls.length;
+    var dc = ls.filter(function (l) { return MBA.store.isDone(l.id); }).length;
+    var d = ls.filter(function (l) { return MBA.store.isDone(l.id) || MBA.store.isTested(l.id); }).length;
+    return { n: n, d: d, dc: dc, p: n ? d / n : 0, cert: n > 0 && dc === n };
   }
   function ring(p, color, size) {
     size = size || 46; var r = size / 2 - 4, c = 2 * Math.PI * r;
@@ -17,7 +20,7 @@
   function pageHead(icon, title, sub) { return h('header.page-head', h('div.page-icon', icon), h('div', h('h1', title), sub ? h('p.lead', sub) : null)); }
   function nextLesson() {
     var all = MBA.allLessons();
-    for (var i = 0; i < all.length; i++) if (!MBA.store.isDone(all[i].lesson.id)) return all[i];
+    for (var i = 0; i < all.length; i++) if (!MBA.store.isDone(all[i].lesson.id) && !MBA.store.isTested(all[i].lesson.id)) return all[i];
     return null;
   }
   function trackCard(t) {
@@ -65,7 +68,14 @@
       var c = MBA.cases[new Date().getDate() % MBA.cases.length];
       return h('section.daily', h('div', h('p.eyebrow', 'Case of the day'), h('h2', c.company + ': ' + c.title), h('p', c.question)), h('a.btn', { href: '#/case/' + c.id }, 'Make the call →'));
     })() : null;
-    return h('div.page.home', hero, stats, who, daily, stages, tools);
+    var practice = h('section', h('h2', 'Practise like a business school'), h('p.muted', 'Case discussions, a company you run for eight quarters, spaced-repetition review and a capstone plan.'),
+      h('div.tool-mini',
+        h('a.tool-chip', { href: '#/placement' }, h('span', '🎯'), 'Placement test'),
+        h('a.tool-chip', { href: '#/careers' }, h('span', '🧭'), 'Career paths'),
+        h('a.tool-chip', { href: '#/sim' }, h('span', '🏭'), 'Company simulation'),
+        h('a.tool-chip', { href: '#/review' }, h('span', '🔁'), 'Review flashcards'),
+        h('a.tool-chip', { href: '#/capstone' }, h('span', '🎓'), 'Capstone plan')));
+    return h('div.page.home', hero, stats, who, daily, practice, stages, tools);
   };
   function kpi(icon, a, b) { return h('div.kpi', h('span', icon), h('div', h('b', a), h('small', b))); }
   function persona(icon, title, text, href, cta) { return h('a.persona.reveal', { href: href }, h('span.p-icon', icon), h('h3', title), h('p', text), h('span.link', cta + ' →')); }
@@ -102,13 +112,13 @@
       h('header.track-hero', h('span.th-icon', t.icon), h('div', h('h1', t.title), h('p.lead', t.summary)), ring(pr.p, t.color, 84)),
       t.outcomes ? h('section.outcomes', h('h3', 'After this track you can:'), h('ul', t.outcomes.map(function (o) { return h('li', o); }))) : null,
       h('ol.lesson-list', (t.lessons || []).map(function (l, i) {
-        var done = MBA.store.isDone(l.id), q = MBA.store.get().quiz[l.id];
-        return h('li.reveal', { style: { '--i': i } }, h('a.lesson-row' + (done ? '.done' : ''), { href: '#/lesson/' + l.id },
-          h('span.lr-num', done ? '✓' : String(i + 1)),
+        var done = MBA.store.isDone(l.id), tested = !done && MBA.store.isTested(l.id), q = MBA.store.get().quiz[l.id];
+        return h('li.reveal', { style: { '--i': i } }, h('a.lesson-row' + (done ? '.done' : tested ? '.tested' : ''), { href: '#/lesson/' + l.id },
+          h('span.lr-num', done ? '✓' : tested ? '🎯' : String(i + 1)),
           h('div.lr-main', h('b', l.title), h('small', l.hook || '')),
-          h('div.lr-meta', h('span.pill.lvl-' + (l.level || 'Beginner').toLowerCase(), l.level), h('span.pill', l.minutes + ' min'), q != null ? h('span.pill', 'Quiz ' + Math.round(q * 100) + '%') : null)));
+          h('div.lr-meta', h('span.pill.lvl-' + (l.level || 'Beginner').toLowerCase(), l.level), h('span.pill', l.minutes + ' min'), tested ? h('span.pill', 'Tested out') : null, q != null ? h('span.pill', 'Quiz ' + Math.round(q * 100) + '%') : null)));
       })),
-      pr.p === 1 ? certificate(t) : null);
+      pr.cert ? certificate(t) : null);
     return page;
   };
   function certificate(t) {
@@ -334,7 +344,8 @@
     var out = h('div.case-out');
     var page = h('div.page.narrow', h('nav.crumbs', h('a', { href: '#/cases' }, 'Case library')),
       h('p.eyebrow', (c.industry || '') + ' · ' + (c.year || '')), h('h1', c.company + ': ' + c.title),
-      h('div.row-actions.start', RD.bookmarkBtn('case:' + c.id, '📚 ' + c.company + ': ' + c.title, '#/case/' + c.id)),
+      h('div.row-actions.start', RD.bookmarkBtn('case:' + c.id, '📚 ' + c.company + ': ' + c.title, '#/case/' + c.id), h('a.btn.small', { href: '#/case/' + c.id + '/discuss' }, '🎙️ Discuss in depth')),
+      h('p.small.muted', 'Quick mode: pick an option below. Discussion mode makes you frame the problem, argue a recommendation and weigh risks in writing before the outcome is revealed.'),
       h('section.block', RD.html(c.situation)),
       h('section.block.scenario', h('h3', '🤔 ' + c.question), h('div.sc-options', (c.options || []).map(function (o) {
         return h('button.sc-opt', { onclick: function () {
@@ -446,11 +457,11 @@
   /* ================= PRACTICE ================= */
   P.practice = function () {
     var pool = [];
-    MBA.allLessons().forEach(function (x) { (x.lesson.quiz || []).forEach(function (q) { pool.push({ q: q, x: x }); }); });
+    MBA.allLessons().forEach(function (x) { (x.lesson.quiz || []).forEach(function (q, i) { pool.push({ q: q, x: x, ref: x.lesson.id + ':' + i }); }); });
     var page = h('div.page.narrow', pageHead('🎲', 'Daily drill', '10 random questions from across the whole curriculum. The fastest way to keep everything fresh.'));
     if (!pool.length) return page;
     var picks = []; for (var i = 0; i < Math.min(10, pool.length); i++) picks.push(pool.splice(Math.floor(Math.random() * pool.length), 1)[0]);
-    var fake = { id: 'drill-' + Date.now(), quiz: picks.map(function (p) { return p.q; }) };
+    var fake = { id: 'drill-' + Date.now(), ref: false, quiz: picks.map(function (p) { return { q: p.q.q, options: p.q.options, answer: p.q.answer, explain: p.q.explain, ref: p.ref }; }) };
     page.appendChild(RD.quiz(fake, function (c, n) { if (c / n >= 0.7) MBA.store.addXP(30, 'Drill bonus'); }));
     page.appendChild(h('button.btn', { onclick: function () { MBA.app.route(); } }, 'New drill ↻'));
     return page;
@@ -476,7 +487,7 @@
       h('section.side-box', h('h4', '🏅 ' + lv.name), h('div.xpbar', h('i', { style: { width: bar * 100 + '%' } })), h('small', lv.xp + ' XP' + (lv.next ? ' · ' + (lv.next - lv.xp) + ' XP to ' + lv.nextName : ' · max rank'))),
       h('div.track-grid', MBA.tracks.map(trackCard)),
       h('section.side-box', h('h4', 'Certificates'), (function () {
-        var done = MBA.tracks.filter(function (t) { return trackProgress(t).p === 1; });
+        var done = MBA.tracks.filter(function (t) { return trackProgress(t).cert; });
         return done.length ? h('ul', done.map(function (t) { return h('li', h('a', { href: '#/track/' + t.id }, t.icon + ' ' + t.title)); })) : h('p.muted', 'Complete every lesson in a track to earn its certificate.');
       })()),
       backupBox(),
