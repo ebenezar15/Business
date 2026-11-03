@@ -108,7 +108,7 @@
     var t = MBA.track(id); if (!t) return P.notFound();
     var pr = trackProgress(t);
     var page = h('div.page', { style: { '--track': t.color } },
-      h('nav.crumbs', h('a', { href: '#/path' }, 'Learning path'), ' / ', h('span', 'Stage ' + t.stage)),
+      h('nav.crumbs', h('a', { href: '#/path' }, 'Learning path'), ' / ', h('span', 'Stage ' + t.stage), t.series ? [' / ', h('a', { href: '#/series/marketing' }, t.series + ' map')] : null),
       h('header.track-hero', h('span.th-icon', t.icon), h('div', h('h1', t.title), h('p.lead', t.summary)), ring(pr.p, t.color, 84)),
       t.outcomes ? h('section.outcomes', h('h3', 'After this track you can:'), h('ul', t.outcomes.map(function (o) { return h('li', o); }))) : null,
       h('ol.lesson-list', (t.lessons || []).map(function (l, i) {
@@ -435,23 +435,24 @@
   /* ================= FRAMEWORKS LIBRARY ================= */
   P.frameworks = function () {
     var items = [];
-    MBA.allLessons().forEach(function (x) { (x.lesson.blocks || []).forEach(function (b) { if (b.type === 'framework' || b.type === 'matrix' || b.type === 'formula') items.push({ b: b, x: x }); }); });
+    var DIAGRAM = { flow: 1, map: 1, cycle: 1, pyramid: 1 };
+    MBA.allLessons().forEach(function (x) { (x.lesson.blocks || []).forEach(function (b) { if (b.type === 'framework' || b.type === 'matrix' || b.type === 'formula' || DIAGRAM[b.type]) items.push({ b: b, x: x, k: DIAGRAM[b.type] ? 'diagram' : b.type }); }); });
     var input = h('input.search', { type: 'search', placeholder: 'Search ' + items.length + ' frameworks, matrices and formulas…', 'aria-label': 'Search frameworks' });
-    var kinds = { framework: '🧠 Frameworks', matrix: '🔲 Matrices', formula: '🧮 Formulas' }, cur = 'all';
+    var kinds = { framework: '🧠 Frameworks', matrix: '🔲 Matrices', formula: '🧮 Formulas', diagram: '🔀 Diagrams & maps' }, cur = 'all';
     var filter = h('div.filters', [['all', 'All']].concat(Object.keys(kinds).map(function (k) { return [k, kinds[k]]; })).map(function (p) {
       return h('button.chip' + (p[0] === cur ? '.on' : ''), { 'data-k': p[0], onclick: function () { cur = p[0]; filter.querySelectorAll('.chip').forEach(function (c) { c.classList.toggle('on', c.getAttribute('data-k') === cur); }); draw(); } }, p[1]);
     }));
     var grid = h('div.fw-lib');
     function draw() {
       var q = input.value.toLowerCase(); grid.innerHTML = '';
-      items.filter(function (it) { return (cur === 'all' || it.b.type === cur) && (!q || (it.b.name || '').toLowerCase().indexOf(q) >= 0); }).forEach(function (it) {
-        var open = h('details.fw-item', h('summary', h('span.tag-k', it.b.type), h('b', it.b.name), h('small', it.x.track.icon + ' ' + it.x.lesson.title)));
+      items.filter(function (it) { return (cur === 'all' || it.k === cur) && (!q || (it.b.name || it.b.title || '').toLowerCase().indexOf(q) >= 0); }).forEach(function (it) {
+        var open = h('details.fw-item', h('summary', h('span.tag-k', it.b.type), h('b', it.b.name || it.b.title || it.b.center), h('small', it.x.track.icon + ' ' + it.x.lesson.title)));
         open.addEventListener('toggle', function () { if (open.open && open.childNodes.length === 1) { var n = RD.block(it.b, it.x.lesson); n.classList.add('in'); open.appendChild(n); open.appendChild(h('a.tag', { href: '#/lesson/' + it.x.lesson.id }, 'Open lesson →')); } }, false);
         grid.appendChild(open);
       });
     }
     input.addEventListener('input', draw); draw();
-    return h('div.page.narrow', pageHead('🧠', 'Frameworks library', 'Your consultant\'s cheat sheet: every framework, 2×2 matrix and formula in the course — searchable, interactive.'), input, filter, grid);
+    return h('div.page.narrow', pageHead('🧠', 'Frameworks library', 'Your consultant\'s cheat sheet: every framework, 2×2 matrix, formula, flowchart and concept map in the course — searchable, interactive.'), input, filter, grid);
   };
 
   /* ================= PRACTICE ================= */

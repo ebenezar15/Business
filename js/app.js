@@ -10,6 +10,7 @@
     ['#/path', '🧭', 'Learning path'],
     ['#/placement', '🎯', 'Placement test'],
     ['#/careers', '🧳', 'Career paths'],
+    ['#/series/marketing', '🗺️', 'Marketing map'],
     ['#/review', '🔁', 'Review flashcards'],
     ['#/practice', '🎲', 'Daily drill'],
     'Practise',
@@ -58,6 +59,7 @@
       case 'placement': return P.placement();
       case 'capstone': return P.capstone();
       case 'careers': return P.careers(b);
+      case 'series': return P.series(b);
       case 'search': return P.search(b);
       default: return P.notFound();
     }

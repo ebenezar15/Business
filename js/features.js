@@ -569,6 +569,43 @@
         return h('a.persona', { href: '#/careers/' + c.id }, h('span.p-icon', c.icon), h('h3', c.name), h('p', c.blurb), h('small', items.length + ' steps · ' + done + ' done'), h('span.link', 'Open path →'));
       })));
   };
+  /* =====================================================================
+     7. SERIES MAP  (#/series/marketing) — one visual journey across a multi-track series
+     ===================================================================== */
+  var SERIES = { marketing: { name: 'Marketing Management', icon: '🗺️',
+    intro: 'Five connected tracks that take marketing from strategy to execution. Each part feeds the next, and results feed back into strategy.',
+    flow: ['Understand the market', 'Win the right customers', 'Build a brand', 'Shape & deliver the offer', 'Communicate & grow'] } };
+  P.series = function (id) {
+    var S = SERIES[id] || SERIES.marketing;
+    var tracks = MBA.tracks.filter(function (t) { return t.series === S.name; });
+    var page = h('div.page.series', pageHead(S.icon, S.name + ' map', S.intro));
+    if (!tracks.length) { page.appendChild(h('p.muted', 'This series has no tracks yet.')); return page; }
+    var all = 0, done = 0;
+    tracks.forEach(function (t) { t.lessons.forEach(function (l) { all++; if (MBA.store.isDone(l.id) || MBA.store.isTested(l.id)) done++; }); });
+    page.appendChild(h('section.side-box', h('h4', done + ' of ' + all + ' lessons done'), h('div.xpbar', h('i', { style: { width: (all ? done / all * 100 : 0) + '%' } }))));
+    // big-picture loop
+    page.appendChild(RD.block({ type: 'cycle', title: 'The big picture', center: 'Customer value', steps: tracks.map(function (t, i) {
+      return { label: S.flow[i] || t.title, desc: '<b>' + t.title + '</b><br>' + (t.summary || '') + '<br><a href="#/track/' + t.id + '">Open the track →</a>' };
+    }) }));
+    // journey: parts as stations, lessons as stops
+    page.appendChild(h('h2', 'The journey, lesson by lesson'));
+    page.appendChild(h('ol.journey', tracks.map(function (t, ti) {
+      return h('li.journey-part', { style: { '--track': t.color, '--i': ti } },
+        h('div.journey-head', h('span.journey-n', String(ti + 1)), h('div', h('small', t.part || ''), h('h3', h('a', { href: '#/track/' + t.id }, t.icon + ' ' + t.title)))),
+        h('ol.journey-stops', t.lessons.map(function (l) {
+          var st = MBA.store.isDone(l.id) ? 'done' : MBA.store.isTested(l.id) ? 'tested' : 'todo';
+          var dia = (l.blocks || []).filter(function (b) { return /^(flow|map|cycle|pyramid)$/.test(b.type); }).length;
+          return h('li', h('a.journey-stop.' + st, { href: '#/lesson/' + l.id }, h('span.journey-dot', { 'aria-hidden': 'true' }, st === 'done' ? '✓' : st === 'tested' ? '🎯' : ''),
+            h('span.journey-txt', h('b', l.title), h('small', (l.level || '') + ' · ' + (l.minutes || 10) + ' min' + (dia ? ' · ' + dia + ' diagrams' : '')))));
+        })));
+    })));
+    var cases = MBA.cases.filter(function (c) { return tracks.some(function (t) { return t.id === c.track; }); });
+    if (cases.length) page.appendChild(h('section', h('h2', 'Case studies in this series'), h('div.case-grid', cases.map(function (c) {
+      return h('a.case-card', { href: '#/case/' + c.id + '/discuss' }, h('small', (c.industry || '') + ' · ' + (c.year || '')), h('h3', c.company), h('p', c.title));
+    }))));
+    return page;
+  };
+
   MBA.careers = CAREERS;
   MBA.features = { expandCareer: expandCareer, sm2: sm2, buildDeck: buildDeck };
 })();

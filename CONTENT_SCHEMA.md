@@ -91,6 +91,25 @@ MBA.addTrack({
 // Embeds one of the built-in interactive simulators (see list below)
 { type: 'interactive', widget: 'unit-economics', title: 'Play with it', note: 'What to try: e.g. halve churn and watch LTV.' }
 
+// Flowchart (top to bottom). kind: 'start' | 'step' | 'decision' | 'end' (first/last default to start/end).
+// A decision may list branches shown beside it.
+{ type: 'flow', title: 'The new-product development process', when: 'Optional: when to use it',
+  steps: [ { label: 'Idea generation', desc: 'What happens here' },
+           { label: 'Does the concept pass screening?', kind: 'decision', desc: '...',
+             branches: [ { label: 'Yes', to: 'Concept testing' }, { label: 'No', to: 'Drop or rework the idea' } ] },
+           { label: 'Commercialisation', desc: '...' } ] }
+
+// Concept / mind map: a central idea with 3–8 branches. Each branch: label, desc, optional children (short chips).
+{ type: 'map', title: 'What drives brand equity', center: 'Brand equity',
+  branches: [ { label: 'Awareness', desc: '...', children: ['Recall', 'Recognition'] }, ... ] }
+
+// Cycle: 3–8 stages in a continuous loop.
+{ type: 'cycle', title: 'The customer loyalty loop', center: 'Loyalty', steps: [ { label: 'Attract', desc: '...' }, ... ] }
+
+// Pyramid (levels listed TOP first, apex = levels[0]) or funnel with invert: true (widest/first stage first).
+{ type: 'pyramid', title: 'Brand resonance ladder', levels: [ { label: 'Resonance', note: 'optional short line', desc: '...' }, ... ] }
+{ type: 'pyramid', invert: true, title: 'The purchase funnel', levels: [ { label: 'Aware', desc: '...' }, ... ] }
+
 // A quick "what would you do?" decision with feedback per option
 { type: 'scenario', prompt: '...', options: [ { text: '...', feedback: '...', good: true }, { text: '...', feedback: '...', good: false } ] }
 

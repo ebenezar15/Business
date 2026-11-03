@@ -424,6 +424,80 @@ label.check { display: flex; gap: 8px; align-items: center; font-size: .86rem; c
 label.check input { width: 18px; height: 18px; accent-color: var(--accent); }
 select { font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 9px; padding: 7px 10px; }
 
+/* ---------- visual diagrams: flow, concept map, cycle, pyramid ---------- */
+.flow { list-style: none; padding: 0; margin: 14px 0 10px; display: grid; justify-items: center; gap: 0; }
+.flow-item { display: grid; justify-items: center; width: 100%; max-width: 520px; position: relative; padding-bottom: 26px; }
+.flow-item:last-child { padding-bottom: 0; }
+.flow-item:not(:last-child)::after { content: ''; position: absolute; bottom: 4px; left: 50%; width: 2px; height: 18px; background: var(--line); transform: translateX(-50%); }
+.flow-item:not(:last-child)::before { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); border: 6px solid transparent; border-top: 7px solid var(--muted); border-bottom: 0; }
+.flow-node { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; padding: 11px 14px; border-radius: 12px; border: 2px solid var(--line); background: var(--bg); font-weight: 600; font-size: .93rem; transition: all .25s; }
+.reveal.in .flow-node { animation: rise .45s both; animation-delay: calc(var(--i) * 80ms); }
+.flow-node:hover { border-color: var(--track, var(--accent)); }
+.flow-node.k-start, .flow-node.k-end { border-radius: 99px; background: color-mix(in srgb, var(--track, var(--accent)) 12%, var(--card)); }
+.flow-node.k-decision { border-style: dashed; border-color: var(--warn); background: var(--warn-soft); }
+.flow-node.active { border-color: var(--track, var(--accent)); box-shadow: var(--shadow); transform: scale(1.02); }
+.flow-node.seen { border-color: color-mix(in srgb, var(--track, var(--accent)) 45%, var(--line)); }
+.flow-n, .flow-q { width: 26px; height: 26px; flex: none; display: grid; place-items: center; border-radius: 50%; background: var(--track, var(--accent)); color: #fff; font-size: .78rem; font-weight: 800; }
+.flow-q { background: var(--warn); border-radius: 6px; transform: rotate(45deg); }
+.flow-label { min-width: 0; overflow-wrap: anywhere; }
+.flow-branches { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: 6px; }
+.flow-branch { font-size: .78rem; padding: 3px 10px; border-radius: 99px; background: var(--bg-2); color: var(--ink-2); }
+.flow-branch-list { margin: 8px 0 0; padding-left: 1.2em; }
+
+.cmap { position: relative; width: 100%; max-width: 620px; aspect-ratio: 1 / .78; margin: 10px auto; }
+.cmap-lines { position: absolute; inset: 0; width: 100%; height: 100%; }
+.cmap-line { stroke: var(--line); stroke-width: .5; vector-effect: non-scaling-stroke; stroke-width: 2; transition: stroke .3s; }
+.cmap-line.on { stroke: var(--track, var(--accent)); stroke-width: 3.5; }
+.cmap-center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); max-width: 34%; padding: 14px 16px; border-radius: 18px; text-align: center; font-family: var(--display); font-weight: 800; font-size: 1.02rem; line-height: 1.2; color: #fff; background: var(--track, var(--accent)); box-shadow: var(--shadow); z-index: 1; overflow-wrap: anywhere; }
+.cmap-node { position: absolute; transform: translate(-50%, -50%); max-width: 30%; padding: 8px 12px; border-radius: 12px; border: 2px solid var(--line); background: var(--card); font-weight: 700; font-size: .84rem; line-height: 1.25; z-index: 2; transition: all .25s; overflow-wrap: anywhere; }
+.reveal.in .cmap-node { animation: pop .45s both; animation-delay: calc(var(--i) * 70ms + 150ms); }
+.cmap-node:hover, .cmap-node.active { border-color: var(--track, var(--accent)); box-shadow: var(--shadow); }
+.cmap-node.active { background: color-mix(in srgb, var(--track, var(--accent)) 14%, var(--card)); }
+.cmap-kids { margin-top: 8px; }
+
+.cycle { position: relative; width: 100%; max-width: 460px; aspect-ratio: 1; margin: 10px auto; }
+.cycle-ring { position: absolute; inset: 10%; border-radius: 50%; border: 3px dashed color-mix(in srgb, var(--track, var(--accent)) 40%, var(--line)); animation: spin-ring 40s linear infinite; }
+@keyframes spin-ring { to { transform: rotate(360deg); } }
+.cycle-center { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); max-width: 40%; text-align: center; font-family: var(--display); font-weight: 800; font-size: 1.05rem; color: var(--track, var(--accent)); }
+.cycle-node { position: absolute; transform: translate(-50%, -50%); max-width: 34%; display: grid; justify-items: center; gap: 2px; padding: 8px 10px; border-radius: 14px; border: 2px solid var(--line); background: var(--card); font-size: .8rem; font-weight: 600; line-height: 1.2; text-align: center; transition: all .25s; }
+.cycle-node b { width: 22px; height: 22px; display: grid; place-items: center; border-radius: 50%; background: var(--track, var(--accent)); color: #fff; font-size: .72rem; }
+.cycle-node.active { border-color: var(--track, var(--accent)); box-shadow: var(--shadow); background: color-mix(in srgb, var(--track, var(--accent)) 12%, var(--card)); }
+
+.pyr { display: grid; justify-items: center; gap: 4px; margin: 12px 0; }
+.pyr-level { display: grid; justify-items: center; padding: 10px 14px; border: 0; border-radius: 8px; color: #fff; font-weight: 700; font-size: .9rem; line-height: 1.25; background: color-mix(in srgb, var(--track, var(--accent)) calc(55% + var(--shade) * 45%), #1c1b22); transition: transform .2s, box-shadow .2s; clip-path: polygon(4% 0, 96% 0, 100% 100%, 0 100%); overflow-wrap: anywhere; }
+.pyr.inv .pyr-level { clip-path: polygon(0 0, 100% 0, 96% 100%, 4% 100%); }
+.pyr-level small { color: rgba(255, 255, 255, .85); font-weight: 500; }
+.reveal.in .pyr-level { animation: rise .4s both; animation-delay: calc(var(--i) * 90ms); }
+.pyr-level:hover, .pyr-level.active { transform: scale(1.03); box-shadow: var(--shadow); }
+.pyr-level:focus-visible { outline: 3px solid var(--ink); }
+
+@media (max-width: 600px) {
+  .cmap, .cycle { aspect-ratio: auto; max-width: none; display: grid; gap: 8px; }
+  .cmap-lines, .cycle-ring { display: none; }
+  .cmap-center, .cycle-center { position: static; transform: none; max-width: none; }
+  .cmap-node, .cycle-node { position: static; transform: none; max-width: none; text-align: left; }
+  .cmap-node { border-left: 5px solid var(--track, var(--accent)); }
+  .cycle-node { display: flex; justify-items: start; gap: 10px; }
+  .cycle-node:not(:last-child)::after { content: '↓'; margin-left: auto; color: var(--muted); }
+  .cycle-node:last-child::after { content: '↺ back to 1'; margin-left: auto; color: var(--muted); font-size: .72rem; }
+}
+
+.journey { list-style: none; padding: 0; margin: 0; display: grid; gap: 18px; }
+.journey-part { position: relative; padding: 18px 20px; border-radius: 18px; background: var(--card); border: 1px solid var(--line); border-left: 6px solid var(--track); }
+.journey-part:not(:last-child)::after { content: '↓'; position: absolute; left: 50%; bottom: -19px; transform: translateX(-50%); color: var(--muted); font-weight: 800; }
+.journey-head { display: flex; gap: 14px; align-items: center; margin-bottom: 12px; }
+.journey-head h3 { margin: 2px 0 0; }
+.journey-head a { color: var(--ink); }
+.journey-n { width: 38px; height: 38px; flex: none; display: grid; place-items: center; border-radius: 50%; background: var(--track); color: #fff; font-weight: 800; }
+.journey-stops { list-style: none; padding: 0 0 0 18px; margin: 0; border-left: 3px dotted color-mix(in srgb, var(--track) 50%, var(--line)); display: grid; gap: 6px; }
+.journey-stop { display: flex; gap: 10px; align-items: center; padding: 8px 10px; border-radius: 10px; color: var(--ink); margin-left: -30px; }
+.journey-stop:hover { background: var(--bg-2); text-decoration: none; }
+.journey-dot { width: 22px; height: 22px; flex: none; display: grid; place-items: center; border-radius: 50%; border: 3px solid var(--track); background: var(--card); font-size: .7rem; color: #fff; }
+.journey-stop.done .journey-dot { background: var(--good); border-color: var(--good); }
+.journey-stop.tested .journey-dot { background: var(--warn-soft); border-color: var(--warn); }
+.journey-txt { min-width: 0; display: grid; }
+.journey-txt b { font-size: .93rem; overflow-wrap: anywhere; }
+
 /* ---------- toolkit ---------- */
 .tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; }
 .tool-card { display: flex; flex-direction: column; gap: 4px; padding: 18px; border-radius: var(--r); background: var(--card); border: 1px solid var(--line); color: var(--ink); transition: transform .2s, border-color .2s; }
