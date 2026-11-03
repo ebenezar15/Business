@@ -8,7 +8,7 @@ All content is original. MBA Studio is not affiliated with any business school.
 
 ## Download and use on any device
 
-**[⬇️ Download MBA-Studio.zip](https://github.com/ebenezar15/Business/raw/claude/gallant-mccarthy-30h9kg/dist/MBA-Studio.zip)** (about 0.9 MB). Unzip it to get `MBA-Studio.html`, a single file that contains the whole app and works offline. You can also [download the HTML file directly](https://github.com/ebenezar15/Business/raw/claude/gallant-mccarthy-30h9kg/dist/MBA-Studio.html).
+**[⬇️ Download MBA-Studio.zip](https://github.com/ebenezar15/Business/raw/claude/gallant-mccarthy-30h9kg/dist/MBA-Studio.zip)** (about 1 MB). Unzip it to get `MBA-Studio.html`, a single file that contains the whole app and works offline. You can also [download the HTML file directly](https://github.com/ebenezar15/Business/raw/claude/gallant-mccarthy-30h9kg/dist/MBA-Studio.html).
 
 | Device | How to open it |
 |---|---|
@@ -26,13 +26,14 @@ To rebuild the single file after editing content, run `node tools/build-single.j
 
 | Area | What you get |
 |---|---|
-| 🧭 **Learning path** | 5 stages, 28 tracks and 174 lessons: **Foundations → Build → Core Functions → Grow & Lead → Specialise** (electives on ESG and India) |
+| 🧭 **Learning path** | 5 stages, 33 tracks and 207 lessons: **Foundations → Build → Core Functions → Grow & Lead → Specialise** (electives on ESG, India and a five-part Marketing Management series) |
 | 📘 **Lessons** | Each lesson has an "explain it simply" analogy, animated frameworks, 2×2 matrices, worked formulas, flashcards, a step-by-step case study, a "what would you do?" scenario, a quiz, a challenge with a model answer, and a notes box |
+| 🗺️ **Marketing Management series** | Five tracks (33 lessons) from strategy and research to customers, brands, offers, channels, communications and growth. Built around 105 clickable flowcharts, concept maps, cycles and pyramids, with 42 real-company case studies and a visual series map (`#/series/marketing`) |
 | 🧰 **Toolkit** | 32 live simulators, for example LTV:CAC, NPV/IRR, cap tables, regression, hypothesis tests, decision trees, Monte Carlo, LBO returns, FX hedging, a negotiation ZOPA planner and the beer game |
-| 🎙️ **Case discussion** | 40 decision cases. Quick mode lets you pick an option. Discussion mode (`#/case/:id/discuss`) makes you frame the problem, recommend and weigh risks in writing before you see what happened, then self-score on a 5-line rubric |
+| 🎙️ **Case discussion** | 50 decision cases. Quick mode lets you pick an option. Discussion mode (`#/case/:id/discuss`) makes you frame the problem, recommend and weigh risks in writing before you see what happened, then self-score on a 5-line rubric |
 | 🏭 **Company simulation** | Run a company for 8 quarters against 3 computer-run rivals. You set price, marketing, hiring and fundraising, and see the P&L, cash, market share and a final scorecard |
 | 🏆 **Challenge arena** | 40 consulting-style problems by role, with hints, model answers and rubric self-scoring |
-| 🔁 **Review flashcards** | Spaced repetition (SM-2 style) built from 1,066 glossary terms and every quiz question you got wrong |
+| 🔁 **Review flashcards** | Spaced repetition (SM-2 style) built from every glossary term and every quiz question you got wrong |
 | 🎯 **Placement test** | 20 questions across all stages. Lessons you already know are marked "tested out" |
 | 🧳 **Career paths** | Ordered routes for consulting, product management, VC/IB and founders |
 | 💡 **Idea Lab → 🎓 Capstone** | The Idea Lab, Business Model Canvas, unit economics and pricing work combine into one printable business plan |

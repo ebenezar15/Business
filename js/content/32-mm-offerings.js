@@ -158,7 +158,7 @@ MBA.addTrack({
           type: 'compare', title: 'Product-line decisions', headers: ['Move', 'What it means', 'When it works', 'Risk'],
           rows: [
             ['Stretch down', 'Add a lower-priced item', 'To block low-price rivals or tap a growing value segment', 'Cannibalises core; can cheapen the brand'],
-            ['Stretch up', 'Add a premium item', 'For growth, margins or to lift the whole line\'s image (e.g. Toyota launching Lexus in 1989)', 'Customers may doubt the brand can do premium; often needs a separate name'],
+            ['Stretch up', 'Add a premium item', 'For growth, margins or to lift the whole line\'s image (e.g. Nissan launching Infiniti in 1989)', 'Customers may doubt the brand can do premium; often needs a separate name'],
             ['Two-way stretch', 'Add both above and below', 'Mid-market players hemmed in on both sides', 'Complexity and confused positioning'],
             ['Line filling', 'Add items within the current range', 'To fill gaps rivals could use, use excess capacity, satisfy dealers', 'Items too similar confuse buyers and cannibalise'],
             ['Modernising', 'Refresh the line', 'When designs or technology date', 'Timing: too early cannibalises, too late lets rivals win'],
@@ -177,7 +177,7 @@ MBA.addTrack({
           ]
         },
         {
-          type: 'case', company: 'Gillette (Procter & Gamble)', year: '1900s–2017', title: 'Captive pricing — and its limits',
+          type: 'case', company: 'Gillette', year: '1900s–2017', title: 'Captive pricing — and its limits',
           situation: `Gillette built its business on disposable blades for safety razors. From the 1990s it released ever more advanced systems (Mach3 in 1998, Fusion in 2006), selling the handle relatively cheaply and earning most of its profit on replacement cartridges, protected by patents. P&G bought Gillette in 2005.`,
           decision: `The model depended on shoppers accepting high cartridge prices. From 2012, online challengers such as Dollar Shave Club and Harry's sold cheaper cartridges by subscription and mocked "overpriced" blades. Gillette responded with its own subscription service and, in 2017, publicly cut cartridge prices substantially.`,
           outcome: `Gillette kept market leadership, but its pricing power and share were dented. The captive model became visibly fragile once a credible low-priced substitute could reach customers directly.`,
@@ -192,7 +192,7 @@ MBA.addTrack({
           steps: [
             { label: 'Spot the gap', desc: 'Segment growth above or below your current price range, or a rival entering one.' },
             { label: 'Is the gap big and profitable enough to matter?', kind: 'decision', desc: 'Size the segment and its margins.', branches: [ { label: 'Yes', to: 'Check the brand fit' }, { label: 'No', to: 'Stay focused; monitor' } ] },
-            { label: 'Can our current brand credibly stretch there?', kind: 'decision', desc: 'Downward stretches risk cheapening the brand; upward ones risk disbelief.', branches: [ { label: 'Yes', to: 'Sub-brand under the master brand' }, { label: 'No', to: 'New, separate brand (as Toyota did with Lexus)' } ] },
+            { label: 'Can our current brand credibly stretch there?', kind: 'decision', desc: 'Downward stretches risk cheapening the brand; upward ones risk disbelief.', branches: [ { label: 'Yes', to: 'Sub-brand under the master brand' }, { label: 'No', to: 'New, separate brand (as Nissan did with Infiniti)' } ] },
             { label: 'Estimate cannibalisation', desc: 'What share of the new item\'s sales comes from your existing items, and is net contribution still positive?' },
             { label: 'Launch, then review the line', desc: 'Re-run line analysis: sales and profit by item, overlap, and items to prune.' }
           ]
@@ -205,7 +205,7 @@ MBA.addTrack({
             'Is it convenient: easy to open, reseal, carry, store and dispose of or recycle?',
             'Does the label meet legal rules (ingredients, nutrition, origin, safety, unit pricing) in each market?',
             'Are sustainability claims specific and provable, avoiding vague "eco" language?',
-            'Does a warranty or guarantee signal quality where buyers are uncertain? Hyundai\'s 10-year/100,000-mile US powertrain warranty from 1998 is a famous example of using a warranty to fight a poor quality image.',
+            'Does a warranty or guarantee signal quality where buyers are uncertain? L.L.Bean\'s long-standing satisfaction guarantee is a well-known example of a guarantee used as a brand promise.',
             'Have you costed the warranty: expected claim rate × cost per claim, and built it into price?'
           ]
         },
@@ -227,7 +227,7 @@ MBA.addTrack({
         { q: 'A company has 4 product lines with 5, 8, 3 and 4 items. What are its mix width and total length?', options: ['Width 20, length 4', 'Width 4, length 5', 'Width 5, length 20', 'Width 4, length 20'], answer: 3, explain: 'Width = number of lines (4). Length = total items (5 + 8 + 3 + 4 = 20); average length per line is 5.' },
         { q: 'A theme park charges an entry fee plus a fee for each premium ride. This is:', options: ['Two-part pricing', 'By-product pricing', 'Captive-product pricing', 'Pure bundling'], answer: 0, explain: 'A fixed fee plus a variable usage fee is two-part pricing.' },
         { q: 'A razor handle sells at a $2 loss. Each cartridge earns $3 of contribution and a typical user buys 30 a year for 2 years. Lifetime contribution per user?', options: ['$88', '$90', '$178', '$180'], answer: 2, explain: '30 × 2 × $3 = $180 from cartridges, minus the $2 handle loss = $178.' },
-        { q: 'Toyota created the separate Lexus brand in 1989 mainly to solve which problem?', options: ['Pruning unprofitable items', 'Doubt that a mass-market brand could credibly sell luxury cars', 'Line filling at the low end', 'Lowering packaging costs'], answer: 1, explain: 'Upward stretches often need a separate brand because buyers doubt the original brand can do premium.' },
+        { q: 'Nissan created the separate Infiniti brand in 1989 mainly to solve which problem?', options: ['Pruning unprofitable items', 'Doubt that a mass-market brand could credibly sell luxury cars', 'Line filling at the low end', 'Lowering packaging costs'], answer: 1, explain: 'Upward stretches often need a separate brand because buyers doubt the original brand can do premium.' },
         { q: 'What usually makes ingredient branding succeed?', options: ['The ingredient is cheap and invisible', 'The final product maker refuses to mention it', 'The ingredient matters to performance and buyers cannot easily judge it themselves', 'It is only used for services'], answer: 2, explain: 'A trusted ingredient brand reduces buyer uncertainty about an important, hard-to-judge component.' }
       ],
       challenge: {
@@ -496,8 +496,8 @@ MBA.addTrack({
           ]
         },
         {
-          type: 'callout', kind: 'example', title: 'Countertrade: cola for vodka',
-          html: `<p>In the early 1970s PepsiCo agreed a deal with the Soviet Union, where the rouble could not be freely converted. Pepsi supplied cola concentrate and was paid partly through the right to sell Stolichnaya vodka in the United States. Barter-style deals like this are still used where currency is scarce or controlled, in defence contracts (offsets) and in some commodity trade.</p>`
+          type: 'callout', kind: 'example', title: 'Countertrade: fighter jets for palm oil',
+          html: `<p>In 2003 Malaysia agreed to buy Sukhoi fighter jets from Russia and arranged for part of the payment to be made in palm oil, one of its main exports, rather than in hard currency. Barter-style deals like this are still used where currency is scarce or controlled, in defence contracts (offsets) and in some commodity trade.</p>`
         },
         {
           type: 'map', title: 'Promotional and differentiated pricing', center: 'Adapting price',
@@ -645,11 +645,11 @@ MBA.addTrack({
           ]
         },
         {
-          type: 'case', company: 'The Coca-Cola Company', year: '1899–2018', title: 'A contractual channel, bought back and sold again',
-          situation: `Coca-Cola sells concentrate; independent bottlers make, sell and deliver the finished drinks under franchise agreements in their territories. The system started in 1899 when two lawyers from Chattanooga obtained rights to bottle the drink, reportedly for just one dollar.`,
-          decision: `Over the decades Coca-Cola consolidated and partly owned big bottlers. In 2010 it bought the North American bottling business of its largest bottler, Coca-Cola Enterprises, to coordinate the system directly. In 2015 it began refranchising those territories to independent bottlers again, largely completing the process in North America by around 2017–2018.`,
-          outcome: `Owning bottling had lowered Coca-Cola\'s margins and tied up capital in trucks and plants. Refranchising cut reported revenue but made the company leaner and more profitable as a share of revenue, while bottlers focused on local execution.`,
-          lesson: `Channel ownership is a choice about control versus capital and focus. A contractual VMS can deliver coordination without owning every truck — if the contracts and incentives are well designed.`
+          type: 'case', company: 'Apple (Apple Retail)', year: '2001–today', title: 'Building a company-owned channel',
+          situation: `Around 2000, Macs were sold mainly through computer superstores and resellers, where they sat among many Windows PCs and sales staff had little reason to explain what made a Mac different. Apple had little control over how its products were shown, demonstrated or supported.`,
+          decision: `Apple hired Ron Johnson from Target to build a retail chain, prototyped the store design in a warehouse, and opened its first two stores in May 2001 in Virginia and California, despite widespread scepticism in the business press. Stores were organised around what customers wanted to do rather than product categories, with free workshops and a Genius Bar for face-to-face support.`,
+          outcome: `Apple Stores became a key channel for the iPod, iPhone and later products, and are widely reported to achieve some of the highest sales per square foot in retailing. Apple kept selling through carriers and selected retailers at the same time, so the stores worked as a flagship within a multichannel system.`,
+          lesson: `A corporate (owned) channel buys control over presentation, service and the customer relationship, at the cost of capital and fixed commitment. It works best when the product needs explaining and the brand experience is part of the value.`
         },
         {
           type: 'map', title: 'Channel conflict: types, causes and fixes', center: 'Conflict',
@@ -662,7 +662,7 @@ MBA.addTrack({
         },
         {
           type: 'callout', kind: 'example', title: 'E-commerce, m-commerce and the brick-and-click race',
-          html: `<p><b>Pure-click</b> firms began online only; <b>brick-and-click</b> firms combine stores and digital. The lines have blurred in both directions: Amazon bought Whole Foods in 2017 to gain physical stores, while online-born brands such as Warby Parker opened showrooms. Apple\'s own stores, opened from 2001 with the Genius Bar for support, showed that a company-owned channel can be a showroom, service centre and brand experience at once. Hotel groups such as Marriott ran "book direct" campaigns from 2016 to shift guests from online travel agencies to their own apps — a live example of multichannel conflict managed with member-only rates rather than by cutting off the agencies. <b>m-commerce</b> (mobile shopping) is now the default in many markets, especially India and South-East Asia.</p>`
+          html: `<p><b>Pure-click</b> firms began online only; <b>brick-and-click</b> firms combine stores and digital. The lines have blurred in both directions: Amazon bought Whole Foods in 2017 to gain physical stores, while online-born brands such as Warby Parker opened showrooms. Large hotel groups ran "book direct" campaigns from 2016 to shift guests from online travel agencies to their own apps — a live example of multichannel conflict managed with member-only rates rather than by cutting off the agencies. <b>m-commerce</b> (mobile shopping) is now the default in many markets, especially India and South-East Asia.</p>`
         },
         {
           type: 'scenario',
@@ -775,7 +775,7 @@ MBA.addTrack({
         {
           type: 'case', company: 'Walmart', year: '1980s–today', title: 'Logistics as a marketing weapon',
           situation: `Walmart\'s everyday-low-price promise required lower costs than rivals, and its early stores were in small towns that big distributors served poorly.`,
-          decision: `It built a network of large distribution centres feeding clusters of nearby stores, ran its own truck fleet, used cross-docking so many goods passed through without long storage, invested early in a private satellite network and shared point-of-sale data with suppliers through its Retail Link system from the early 1990s. A late-1980s partnership with Procter & Gamble moved replenishment toward continuous, data-driven ordering.`,
+          decision: `It built a network of large distribution centres feeding clusters of nearby stores, ran its own truck fleet, used cross-docking so many goods passed through without long storage, invested early in a private satellite network and shared point-of-sale data with suppliers through its Retail Link system from the early 1990s. A late-1980s partnership with one of its largest consumer-goods suppliers moved replenishment toward continuous, data-driven ordering.`,
           outcome: `Walmart became the world\'s largest retailer by revenue, and its supply-chain practices became a benchmark. Its logistics advantage underpinned EDLP rather than being a back-office detail.`,
           lesson: `Market logistics is part of the value proposition. When logistics is designed around the customer promise and data is shared with suppliers, it becomes a competitive advantage rivals struggle to copy.`
         },

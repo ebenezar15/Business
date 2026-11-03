@@ -785,7 +785,7 @@ MBA.addTrack({
         {
           type: 'pyramid', title: 'The four types of marketing control',
           levels: [
-            { label: 'Strategic control', note: 'Top management and auditors', desc: 'Is the firm pursuing the best opportunities in markets, products and channels? Tools: marketing audit, marketing excellence review, social responsibility review.' },
+            { label: 'Strategic control', note: 'Top management and auditors', desc: 'Is the firm pursuing the best opportunities in markets, products and channels? Tools: marketing audit, marketing health check, social responsibility review.' },
             { label: 'Efficiency control', note: 'Line and staff management, marketing controller', desc: 'Is spending effective? Sales force, advertising, promotion and distribution efficiency.' },
             { label: 'Profitability control', note: 'Marketing controller', desc: 'Where is the firm making and losing money — by product, territory, customer, segment, channel and order size?' },
             { label: 'Annual-plan control', note: 'Top and middle management', desc: 'Is the firm hitting its planned sales, share and margin? Tools: sales, share and expense analysis, financial analysis, customer scorecards.' }
@@ -809,7 +809,7 @@ MBA.addTrack({
           ]
         },
         {
-          type: 'compare', title: 'Marketing excellence review: where are we?', headers: ['Dimension', 'Poor', 'Good', 'Excellent'],
+          type: 'compare', title: 'Marketing health check: where are we?', headers: ['Dimension', 'Poor', 'Good', 'Excellent'],
           rows: [
             ['Orientation', 'Product-driven', 'Market-driven', 'Market-driving: shapes customer needs'],
             ['Segments', 'Mass market', 'Segment-oriented', 'Niche- and customer-oriented'],
@@ -845,7 +845,7 @@ MBA.addTrack({
             'Quarterly: brand health tracking and customer satisfaction or NPS',
             'Twice a year: at least one incrementality test on a major channel',
             'Yearly: efficiency review of sales force, advertising, promotion and distribution',
-            'Every 2–3 years: an independent marketing audit and excellence review',
+            'Every 2–3 years: an independent marketing audit and health check',
             'Yearly: a responsibility review of claims, data use and social impact'
           ]
         }
@@ -863,7 +863,7 @@ MBA.addTrack({
         { q: 'A marketing audit should be comprehensive, systematic, periodic and…', options: ['Secret', 'Run by the marketing VP alone', 'Independent', 'Annual by law'], answer: 2, explain: 'Independence matters: self-audits miss blind spots, so audits are often done by an outside or separate team.' },
         { q: 'A channel has revenue of $1.5m, COGS $0.825m, platform fees and ads $0.3m and fulfilment $0.12m. What is its contribution?', options: ['$0.375m', '$0.675m', '$0.120m', '$0.255m'], answer: 3, explain: '$1.5m − $0.825m − $0.3m − $0.12m = $0.255m, or 17% of revenue.' },
         { q: 'Which question belongs to strategic control?', options: ['Did we hit this month\'s sales target?', 'Are we pursuing the best market opportunities?', 'Which salesperson made the most calls?', 'What was our CPM last week?'], answer: 1, explain: 'Strategic control asks whether the overall strategy still fits the market.' },
-        { q: 'On the marketing excellence review, a "market-driving" orientation means:', options: ['Shaping customer needs and the market itself', 'Following competitors closely', 'Selling only to the mass market', 'Cutting prices to win share'], answer: 0, explain: 'Excellent firms do not just respond to markets; they shape what customers come to expect.' }
+        { q: 'On the marketing health check, a "market-driving" orientation means:', options: ['Shaping customer needs and the market itself', 'Following competitors closely', 'Selling only to the mass market', 'Cutting prices to win share'], answer: 0, explain: 'Excellent firms do not just respond to markets; they shape what customers come to expect.' }
       ],
       challenge: {
         title: 'Profitability control across three channels',
