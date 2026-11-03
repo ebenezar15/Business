@@ -194,11 +194,11 @@ MBA.addTrack({
           ]
         },
         {
-          type: 'case', company: 'Harley-Davidson', year: '1981–2000s', title: 'Revitalising a brand through its community',
-          situation: `By the early 1980s Harley-Davidson was struggling: quality had slipped under conglomerate ownership and Japanese makers were winning the heavyweight motorcycle market. A management group bought the company back from its owner, AMF, in 1981.`,
-          decision: `Alongside quality improvements, Harley founded the Harley Owners Group (HOG) in 1983 — company-sponsored chapters, rallies and rides that connected riders with each other and with employees and dealers.`,
-          outcome: `HOG grew into one of the best-known brand communities in the world, with members across many countries. It helped Harley recover and become a symbol of freedom and rebellion. Later, the brand faced a different problem — an ageing core rider base — showing that even resonance must be renewed for new generations.`,
-          lesson: `A brand community turns customers into advocates and co-owners of meaning. But revitalisation is never finished: the community must keep recruiting younger members.`
+          type: 'case', company: 'Lululemon Athletica', year: '1998–2010s', title: 'Building equity through a community of ambassadors',
+          situation: `Lululemon opened in Vancouver in 1998 selling premium yoga clothing. It had little money for mass advertising and was entering a category dominated by large sportswear brands.`,
+          decision: `Instead of big campaigns, it built a grassroots community: each store recruited local yoga teachers, fitness instructors and athletes as “ambassadors”, who wore and tested products, gave feedback, and featured in the store. Stores hosted free community classes, and staff were trained as “educators” to know local fitness life — internal branding in action.`,
+          outcome: `Lululemon grew into a global brand able to charge premium prices with relatively little traditional advertising. It also learned how fast community trust can be tested: a 2013 recall of yoga pants that were too sheer, and later controversies, showed that performance and conduct must keep up with the community’s expectations.`,
+          lesson: `A brand community can build salience, imagery and resonance cheaply and generate rich product feedback. But it amplifies failures as quickly as successes, so track community sentiment as closely as sales.`
         },
         {
           type: 'case', company: 'Amul', year: '1966–today', title: 'Reinforcement through consistent, topical creativity',
@@ -436,11 +436,11 @@ MBA.addTrack({
           lesson: `A clear frame (car rental vs the leader) plus an honest, believable POD beats vague claims of superiority. The promise worked because internal branding made it deliverable.`
         },
         {
-          type: 'case', company: 'Tata Motors (Nano)', year: '2008–2018', title: 'When a POD becomes a stigma',
-          situation: `Tata unveiled the Nano in 2008 as a car for families moving up from two-wheelers, at a headline price of about one lakh rupees.`,
-          decision: `Publicity framed it as “the world’s cheapest car”. Launch was also delayed when protests forced a factory move from Singur in West Bengal to Gujarat.`,
-          outcome: `Sales were far below expectations. Many buyers — for whom a car is a status purchase — did not want to be seen in “the cheapest car”, and Ratan Tata later acknowledged that the cheap label had been a mistake. Production ended around 2018.`,
-          lesson: `A POD must be desirable to the target, including emotionally. “Cheapest” was differentiating and deliverable, but for an aspirational purchase it was not desirable.`
+          type: 'case', company: 'Domino’s Pizza', year: '2009–2010', title: 'The Pizza Turnaround: repositioning by admitting the problem',
+          situation: `By the late 2000s Domino’s was known in the US for fast, cheap delivery — but customers and taste surveys rated its pizza poorly, and criticism of the crust and sauce was common. Speed was a POD; taste was failing even as a point of parity.`,
+          decision: `Domino’s reformulated its crust, sauce and cheese, then launched the “Pizza Turnaround” campaign (late 2009 into 2010) in which executives watched focus-group clips of customers criticising the old pizza and promised to do better. It followed up with transparency moves such as showing real, unstyled photos of delivered pizzas.`,
+          outcome: `Sales rose noticeably after the relaunch, and the turnaround became the platform for years of growth, later strengthened by heavy investment in online and app ordering. Domino’s shares rose strongly over the following decade.`,
+          lesson: `A POD (speed, convenience) cannot carry a brand that fails a basic POP (decent taste). Fix the parity point first — and honest storytelling can make the fix believable.`
         },
         {
           type: 'callout', kind: 'insight', title: 'Small businesses and storytelling',
@@ -534,11 +534,11 @@ MBA.addTrack({
           ]
         },
         {
-          type: 'case', company: 'PepsiCo vs Coca-Cola', year: '1975–1985', title: 'The Pepsi Challenge and the New Coke backlash',
-          situation: `Coca-Cola led the US cola market. Pepsi needed a way to attack the leader’s core claim — that Coke simply tasted best.`,
-          decision: `From 1975 Pepsi ran the “Pepsi Challenge”: blind taste tests in shops and malls, filmed for ads, in which many participants preferred Pepsi’s sweeter taste. It was a frontal attack on the leader’s strongest point, using evidence.`,
-          outcome: `Pepsi gained share in supermarkets. Coca-Cola eventually responded in 1985 by changing its formula (“New Coke”), which tested well in taste tests — but loyal customers protested about losing the original. Within about three months Coca-Cola brought back the old formula as “Coca-Cola Classic”.`,
-          lesson: `A smart challenger can provoke a leader into abandoning its own position. Coke’s equity lay in heritage and attachment, not only taste; its best defence was position defence, not copying the challenger’s battlefield.`
+          type: 'case', company: 'PepsiCo', year: '1975–1980s', title: 'The Pepsi Challenge: a frontal attack with evidence',
+          situation: `Coca-Cola led the US cola market with far greater heritage and distribution. Pepsi, the clear challenger, needed a way to contest the leader’s core claim — that Coke simply tasted best — without outspending it everywhere.`,
+          decision: `From 1975 Pepsi ran the “Pepsi Challenge”: blind taste tests in shops and malls, filmed and used in advertising, in which many participants preferred Pepsi’s sweeter taste. It chose the one battlefield where it had a demonstrable edge (first-sip taste), made the comparison public, and pushed hardest in supermarkets, where shoppers choose brand by brand.`,
+          outcome: `Pepsi gained share in supermarket sales and won a reputation as the energetic, youthful choice, later reinforced by its “Pepsi Generation” style of advertising. The pressure was strong enough that the leader eventually changed its own formula in 1985 — a move it quickly reversed.`,
+          lesson: `A frontal attack can work for a challenger without superior resources when it targets one specific, provable advantage and turns it into public evidence. Pick the arena where you win, not the one where the leader is strongest overall.`
         },
         {
           type: 'text', title: 'Followers and nichers: profitable without being number one',
@@ -591,7 +591,7 @@ MBA.addTrack({
         { q: 'A small challenger with limited money targets one region with short, unpredictable price promotions. This is a…', options: ['Guerrilla attack', 'Frontal attack', 'Encirclement attack', 'Position defence'], answer: 0, explain: 'Small, intermittent harassment by a resource-poor attacker is guerrilla warfare.' },
         { q: 'A category is worth $2bn a year. The leader holds 40% with a 25% contribution margin. If it wins 2 extra share points with no price cut, how much extra annual contribution does it earn?', options: ['$4m', '$10m', '$40m', '$100m'], answer: 1, explain: '2 points of $2bn = $40m extra revenue; × 25% margin = $10m extra contribution.' },
         { q: 'Which follower type takes the leader’s products and improves them?', options: ['Cloner', 'Counterfeiter', 'Imitator', 'Adapter'], answer: 3, explain: 'Adapters improve on the leader’s products and may later become challengers.' },
-        { q: 'What does the New Coke episode best illustrate?', options: ['Leaders should always copy challengers', 'Brand equity can rest on attachment and heritage, not just product attributes', 'Blind tests predict loyalty perfectly', 'Price is the only weapon'], answer: 1, explain: 'Customers valued the original as part of their identity; changing it attacked the brand’s own resonance.' }
+        { q: 'Why was the Pepsi Challenge an effective challenger tactic?', options: ['It avoided any comparison with the leader', 'It cut Pepsi’s price below cost', 'It attacked the leader’s strongest claim with visible, believable evidence', 'It relied on a celebrity endorser alone'], answer: 2, explain: 'A frontal attack on taste, backed by public blind tests, turned the leader’s main strength into a contestable claim.' }
       ],
       challenge: {
         title: 'Defend against a challenger’s flank attack',
