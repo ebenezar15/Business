@@ -308,7 +308,7 @@ MBA.addTrack({
         },
         {
           type: 'callout', kind: 'myth', title: 'Myth: subliminal ads control what you buy',
-          html: `<p>In 1957 a market researcher claimed that flashing "Eat popcorn" and "Drink Coca-Cola" on a cinema screen boosted sales. He later admitted the study was essentially made up, and controlled experiments have found at most small, short-lived effects in narrow lab conditions. Marketers win by being <b>noticed</b> — distinctive, relevant, repeated — not by hiding messages.</p>`
+          html: `<p>In 1957 a market researcher claimed that flashing "Eat popcorn" on a cinema screen boosted sales. He later admitted the study was essentially made up, and controlled experiments have found at most small, short-lived effects in narrow lab conditions. Marketers win by being <b>noticed</b> — distinctive, relevant, repeated — not by hiding messages.</p>`
         },
         {
           type: 'cycle', title: 'How consumers learn', center: 'Learning',
@@ -325,11 +325,11 @@ MBA.addTrack({
           html: `<p><b>Emotions</b> are not noise in a decision — they often <i>are</i> the decision. Brands evoke pride, nostalgia, fun or relief, and those feelings colour judgements of quality.</p><p><b>Memory</b> works like an <b>associative network</b>: the brand is a node linked to other nodes (colours, places, people, feelings). <b>Encoding</b> is how information gets in — deeper, more personal processing creates stronger links. <b>Retrieval</b> is getting it back out — strong, unique, well-cued links win at the moment of choice. Rivals’ ads can interfere; packaging and in-store cues help retrieval.</p>`
         },
         {
-          type: 'case', company: 'Coca-Cola', year: '1985', title: 'New Coke: tasted better, felt wrong',
-          situation: `Pepsi was gaining share and winning blind taste challenges. Coca-Cola ran extensive taste research, and a sweeter new formula beat both Pepsi and original Coke in blind tests.`,
-          decision: `In April 1985 the company replaced the original formula with "New Coke" rather than selling both.`,
-          outcome: `A fierce public backlash followed: protest calls, letters and groups demanding the old drink back. Within about three months the company brought back the original as "Coca-Cola Classic", which went on to outsell New Coke by a wide margin.`,
-          lesson: `Blind tests measured taste; they missed the associative network of memory, identity and nostalgia attached to the brand. Taking it away triggered loss and emotion that no taste score captured.`
+          type: 'case', company: 'Febreze (Procter & Gamble)', year: 'Late 1990s', title: 'Febreze: the product nobody noticed they needed',
+          situation: `P&G developed a spray that genuinely removed odours from fabrics and launched it in the mid-1990s, advertised as the answer to smelly homes, cars and clothes. Early sales disappointed. Researchers visiting homes found a surprise: people who lived with strong smells (pets, smoke) had stopped noticing them, so the product never got used.`,
+          decision: `Instead of selling odour removal, the team watched what people who did use it actually did: they sprayed it at the end of cleaning, as a finishing touch. P&G repositioned Febreze around that moment — ads showed a freshly cleaned room being sprayed — and added more noticeable scents so the spray delivered a felt reward.`,
+          outcome: `After the relaunch sales took off, and Febreze grew into one of P&G’s biggest household brands, later extended into air fresheners, candles and car products.`,
+          lesson: `Perception adapts: people stop noticing constant stimuli, so a benefit they cannot perceive will not motivate them. Learning needs a cue (finishing cleaning), a response (spray) and a reinforcing reward (a pleasant scent and a sense of a job done) — attach your product to an existing habit.`
         },
         {
           type: 'scenario',
@@ -353,7 +353,7 @@ MBA.addTrack({
       quiz: [
         { q: 'A teenager buys the trainers worn by a famous athlete she admires but has never met. Which group is influencing her?', options: ['Membership group', 'Dissociative group', 'Family of orientation', 'Aspirational group'], answer: 3, explain: 'Aspirational groups are those a person wants to belong to or be like.' },
         { q: 'A laptop with a weak battery is rejected even though it has great features. In two-factor terms, battery life is acting as a…', options: ['Dissatisfier', 'Satisfier', 'Cue', 'Reference group'], answer: 0, explain: 'A dissatisfier causes rejection when inadequate, even if satisfiers are present.' },
-        { q: 'Why did branded and blind taste tests give different results for Coke?', options: ['Selective attention', 'Selective distortion and brand associations', 'Physiological needs', 'Stimulus discrimination'], answer: 1, explain: 'People interpret the taste through what they believe about the brand — distortion fed by memory associations.' },
+        { q: 'Why did Febreze’s first launch, aimed at people with smelly homes, struggle?', options: ['The spray did not work', 'Users had adapted to the smells and no longer perceived them', 'It was priced too low', 'Competitors copied it immediately'], answer: 1, explain: 'Habituation meant the target users did not perceive the problem, so there was no cue or felt reward to drive use.' },
         { q: 'Which statement about subliminal advertising is best supported?', options: ['It reliably doubles sales', 'It is the main way modern ads work', 'The famous 1957 popcorn study was later admitted to be essentially fabricated', 'It works only on television'], answer: 2, explain: 'The original claim was fabricated; controlled evidence shows small effects at most.' },
         { q: 'A soap brand launches a shampoo using the same name and colours, expecting buyers to trust it. This relies on…', options: ['Selective retention', 'Unconscious motives', 'Social class', 'Stimulus generalisation'], answer: 3, explain: 'Customers generalise their learned response from the soap to the similar-looking shampoo.' }
       ],
@@ -681,11 +681,11 @@ MBA.addTrack({
           lesson: `Differentiated full coverage works when each brand meets a clearly different need — and a shared loyalty programme ties the segments together.`
         },
         {
-          type: 'case', company: 'Tata Motors (Nano)', year: '2008–2018', title: 'The right segment, the wrong frame',
-          situation: `Millions of Indian families rode on two-wheelers, sometimes four to a scooter. Tata set out to build a safe, affordable car for them.`,
-          decision: `The Nano was unveiled in 2008 at a target price of ₹1 lakh and widely publicised as the "world’s cheapest car".`,
-          outcome: `Sales fell far short of plans after early production problems and a few fire incidents. Many aspiring buyers did not want to be seen in "the cheapest car" — a car is a status purchase. Ratan Tata later said marketing it as the cheapest car was a mistake. Production ended in 2018.`,
-          lesson: `Demographics (income) pointed to the segment; psychographics (aspiration, self-concept) decided the outcome. Target on needs and identity, not just budget.`
+          type: 'case', company: 'Dacia (Renault Group)', year: '2004–today', title: 'Making value a smart choice, not a cheap one',
+          situation: `Renault bought the Romanian carmaker Dacia in 1999 and in 2004 launched the Logan, a simple, robust saloon engineered to a very low cost for emerging markets in Eastern Europe and beyond.`,
+          decision: `Demand appeared from an unplanned segment: value-minded buyers in Western Europe who wanted a new car with a warranty for the price of a used one. Renault began selling Dacias in markets such as France and Germany, then added the Sandero hatchback and the Duster SUV. Marketing framed buyers as savvy rather than poor — paying only for what matters, skipping costly extras.`,
+          outcome: `Dacia became one of Renault Group’s most profitable brands, and the Sandero has in recent years been among the best-selling cars to private buyers in Europe.`,
+          lesson: `A segment defined by behaviour and attitude (rational, anti-frills buyers) cut across income groups and countries. Framing the low price as a smart choice protected buyers’ self-concept — the opposite of a “cheapest car” label.`
         },
         {
           type: 'callout', kind: 'warning', title: 'Ethical targeting',
