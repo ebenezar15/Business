@@ -53,7 +53,8 @@ MBA.addTrack({
     hints: ['hint 1', 'hint 2'],
     model: `A model answer in HTML (structured: steps, numbers, recommendation).`
   },
-  takeaways: ['3–5 one-line key takeaways']
+  takeaways: ['3–5 one-line key takeaways'],
+  sources: [ { title: 'Optional: sources actually used', url: 'https://...' } ]   // rendered as "Sources & further reading"
 }
 ```
 
@@ -110,6 +111,9 @@ MBA.addTrack({
 { type: 'pyramid', title: 'Brand resonance ladder', levels: [ { label: 'Resonance', note: 'optional short line', desc: '...' }, ... ] }
 { type: 'pyramid', invert: true, title: 'The purchase funnel', levels: [ { label: 'Aware', desc: '...' }, ... ] }
 
+// Questions to ask before deciding (5–8). Tappable cards reveal the "why"; learners tick the ones they can answer.
+{ type: 'questions', title: 'Ask before you pick a fulfilment model', items: [ { q: 'What share of orders ...?', why: 'Because ...' }, ... ] }
+
 // A quick "what would you do?" decision with feedback per option
 { type: 'scenario', prompt: '...', options: [ { text: '...', feedback: '...', good: true }, { text: '...', feedback: '...', good: false } ] }
 
@@ -153,6 +157,9 @@ MBA.addTrack({
 | `fx-exposure` | exporter's FX transaction exposure and forward hedging |
 | `negotiation-zopa` | BATNA / reservation prices, ZOPA, anchors and integrative value |
 | `beer-game` | 4-stage supply chain over 20 weeks showing the bullwhip effect |
+| `d2c-margin` | D2C per-order contribution waterfall (discounts, returns, COGS, shipping, fees, CAC) and LTV:CAC |
+| `b2b-pipeline` | B2B pipeline maths: coverage, deals and opportunities needed, bookings gap |
+| `marketplace` | two-sided marketplace: listings → GMV → take rate → net revenue → contribution, with leakage |
 
 ---
 

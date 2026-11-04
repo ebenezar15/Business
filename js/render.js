@@ -242,6 +242,31 @@
     return h('section.block.reveal', h('div.block-tag', inv ? '🔻 Funnel' : '🔺 Pyramid'), h('h3', b.title || ''), h('div.pyr' + (inv ? '.inv' : ''), btns, drops), panel);
   };
 
+  /* Questions to ask before deciding: tap to reveal why it matters; tick when you have an answer. */
+  R.questions = function (b, ctx) {
+    var items = b.items || [], base = 'q:' + (ctx && ctx.id || 'x') + ':' + (b.title || '').slice(0, 24);
+    var meterI = h('i'), count = h('span.mono');
+    function paint() {
+      var n = items.filter(function (_, k) { return MBA.store.isChecked(base + ':' + k); }).length;
+      meterI.style.width = (items.length ? n / items.length * 100 : 0) + '%';
+      count.textContent = n + ' / ' + items.length + ' answered';
+    }
+    var cards = items.map(function (it, k) {
+      var key = base + ':' + k, id = 'qa-' + Math.random().toString(36).slice(2, 8);
+      var why = h('div.qa-why', { id: id, hidden: true }, h('b', 'Why it matters: '), h('span', { html: it.why }));
+      var toggle = h('button.qa-q', { type: 'button', 'aria-expanded': 'false', 'aria-controls': id, onclick: function () {
+        var open = why.hidden; why.hidden = !open; toggle.setAttribute('aria-expanded', open ? 'true' : 'false'); card.classList.toggle('open', open);
+      } }, h('span.qa-n', String(k + 1)), h('span', { html: it.q }), h('span.qa-chev', { 'aria-hidden': 'true' }, '＋'));
+      var cb = h('input', { type: 'checkbox' }); cb.checked = MBA.store.isChecked(key);
+      cb.addEventListener('change', function () { MBA.store.setCheck(key, cb.checked); card.classList.toggle('done', cb.checked); paint(); });
+      var card = h('li.qa' + (cb.checked ? '.done' : ''), { style: { '--i': k } }, toggle, why, h('label.qa-tick', cb, h('span', 'I have an answer')));
+      return card;
+    });
+    paint();
+    return h('section.block.questions.reveal', h('div.block-tag', '❓ Ask before you decide'), h('h3', b.title || 'Questions to answer first'),
+      h('div.qa-meter', h('span.qa-bar', meterI), count), h('ol.qa-list', cards));
+  };
+
   function block(b, ctx) {
     var fn = R[b.type];
     if (!fn) return h('div');
@@ -348,6 +373,12 @@
         h('div.term-chips', l.terms.map(function (x) { return h('button.term-chip', { type: 'button', onclick: function () { termDrawer(x, l); } }, x.term); }))));
     }
     if (l.takeaways && l.takeaways.length) page.appendChild(h('section.takeaways.reveal', h('h2', '🎯 Key takeaways'), h('ul', l.takeaways.map(function (x) { return h('li', { html: x }); }))));
+    if (l.sources && l.sources.length) page.appendChild(h('section.sources.reveal', h('h2', '🔗 Sources & further reading'),
+      h('p.muted.small', 'What this lesson was researched from. Links open in a new tab.'),
+      h('ul.src-list', l.sources.map(function (x) {
+        var host = ''; try { host = new URL(x.url).hostname.replace(/^www\./, ''); } catch (e) { /* keep empty */ }
+        return h('li', h('a', { href: x.url, target: '_blank', rel: 'noopener noreferrer' }, x.title), host ? h('small.mono', host) : null);
+      }))));
     if (l.quiz && l.quiz.length) page.appendChild(quiz(l));
     if (l.challenge) page.appendChild(challenge(l.challenge, 'lesson:' + l.id));
     page.appendChild(noteBox('mynote:lesson:' + l.id));
@@ -369,7 +400,7 @@
   }
 
   /* A strip of icons, one per block, that jumps to that part of the lesson. */
-  var BLOCK_ICON = { text: '¶', callout: '💡', framework: '🧠', matrix: '🔲', formula: '🧮', compare: '⚖️', flip: '🃏', timeline: '🕰️', 'case': '📚', interactive: '🎮', scenario: '🎯', checklist: '☑️', flow: '🔀', map: '🕸️', cycle: '🔄', pyramid: '🔺' };
+  var BLOCK_ICON = { questions: '❓', text: '¶', callout: '💡', framework: '🧠', matrix: '🔲', formula: '🧮', compare: '⚖️', flip: '🃏', timeline: '🕰️', 'case': '📚', interactive: '🎮', scenario: '🎯', checklist: '☑️', flow: '🔀', map: '🕸️', cycle: '🔄', pyramid: '🔺' };
   function lessonMap(l) {
     return h('nav.lesson-map', { 'aria-label': 'Jump to a part of this lesson' }, (l.blocks || []).map(function (b, k) {
       var label = b.title || b.name || b.company || b.center || b.type;

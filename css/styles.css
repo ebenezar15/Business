@@ -844,6 +844,31 @@ ul.clean { list-style: none; padding: 0; margin: 6px 0 0; display: grid; gap: 7p
 ul.clean li { padding-left: 18px; position: relative; }
 ul.clean li::before { content: ''; position: absolute; left: 2px; top: .62em; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
 
+/* ---- questions to ask before deciding ---- */
+.qa-meter { display: flex; align-items: center; gap: 12px; margin: 4px 0 14px; color: var(--muted); }
+.qa-bar { flex: 1; height: 6px; border-radius: 99px; background: var(--bg-2); overflow: hidden; }
+.qa-bar i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--accent-2), var(--accent)); transition: width .5s cubic-bezier(.2, .8, .2, 1); }
+.qa-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.qa { border: 1px solid var(--line); border-radius: 14px; background: var(--bg); overflow: hidden; transition: border-color .2s; }
+.reveal.in .qa { animation: rise .45s both; animation-delay: calc(var(--i) * 70ms); }
+.qa.open { border-color: var(--track, var(--accent)); }
+.qa.done { border-color: color-mix(in srgb, var(--good) 55%, var(--line)); }
+.qa-q { display: flex; gap: 12px; align-items: flex-start; width: 100%; padding: 12px 14px; border: 0; background: none; text-align: left; font-weight: 600; color: var(--ink); line-height: 1.4; }
+.qa-n { width: 26px; height: 26px; flex: none; display: grid; place-items: center; border-radius: 50%; background: var(--accent-soft); color: var(--accent); font-family: var(--mono); font-size: .75rem; }
+.qa.done .qa-n { background: var(--good); color: var(--on-accent); }
+.qa-q > span:nth-child(2) { flex: 1; min-width: 0; }
+.qa-chev { color: var(--muted); transition: transform .25s; }
+.qa.open .qa-chev { transform: rotate(45deg); }
+.qa-why { padding: 0 14px 10px 52px; color: var(--ink-2); font-size: .93rem; animation: pop .3s; }
+.qa-tick { display: flex; gap: 8px; align-items: center; padding: 0 14px 12px 52px; font-size: .8rem; color: var(--muted); cursor: pointer; }
+.qa-tick input { accent-color: var(--good); width: 16px; height: 16px; }
+.sources { margin: 26px 0; }
+.sources h2 { margin-top: 0; font-size: 1.3rem; }
+.src-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; }
+.src-list li { display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: baseline; padding: 10px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); }
+.src-list a { font-weight: 600; overflow-wrap: anywhere; }
+.src-list small { color: var(--muted); }
+
 /* =====================================================================
    LIVING DIAGRAMS — motion
    ===================================================================== */

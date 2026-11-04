@@ -123,7 +123,7 @@
     var t = MBA.track(id); if (!t) return P.notFound();
     var pr = trackProgress(t);
     var page = h('div.page', { style: { '--track': t.color } },
-      h('nav.crumbs', h('a', { href: '#/path' }, 'Learning path'), ' / ', h('span', 'Stage ' + t.stage), t.series ? [' / ', h('a', { href: '#/series/marketing' }, t.series + ' map')] : null),
+      h('nav.crumbs', h('a', { href: '#/path' }, 'Learning path'), ' / ', h('span', 'Stage ' + t.stage), t.series ? [' / ', h('a', { href: '#/series/' + (t.series === 'Business Model Playbooks' ? 'playbooks' : 'marketing') }, t.series + ' map')] : null),
       h('header.track-hero', h('span.th-icon', t.icon), h('div', h('h1', t.title), h('p.lead', t.summary)), ring(pr.p, t.color, 84)),
       t.outcomes ? h('section.outcomes', h('h3', 'After this track you can:'), h('ul', t.outcomes.map(function (o) { return h('li', o); }))) : null,
       h('ol.lesson-list', (t.lessons || []).map(function (l, i) {

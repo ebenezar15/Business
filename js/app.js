@@ -10,6 +10,7 @@
     ['#/path', '🧭', 'Learning path'],
     ['#/placement', '🎯', 'Placement test'],
     ['#/careers', '🧳', 'Career paths'],
+    ['#/series/playbooks', '🧭', 'Business playbooks'],
     ['#/series/marketing', '🗺️', 'Marketing map'],
     ['#/review', '🔁', 'Review flashcards'],
     ['#/practice', '🎲', 'Daily drill'],

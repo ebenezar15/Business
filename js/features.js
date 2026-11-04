@@ -574,7 +574,35 @@
      ===================================================================== */
   var SERIES = { marketing: { name: 'Marketing Management', icon: '🗺️',
     intro: 'Five connected tracks that take marketing from strategy to execution. Each part feeds the next, and results feed back into strategy.',
-    flow: ['Understand the market', 'Win the right customers', 'Build a brand', 'Shape & deliver the offer', 'Communicate & grow'] } };
+    flow: ['Understand the market', 'Win the right customers', 'Build a brand', 'Shape & deliver the offer', 'Communicate & grow'] },
+    playbooks: { name: 'Business Model Playbooks', icon: '🧭',
+      intro: 'Four field guides — D2C, B2B, B2C and C2C. Each takes you from market study to start, build, revenue, pricing, costs, brand and scale, with the questions to ask before every big decision.',
+      extra: function () { return PLAYBOOK_EXTRA; } } };
+  var PLAYBOOK_EXTRA = [
+    { type: 'map', title: 'Who pays whom?', center: 'Business models',
+      branches: [
+        { label: 'D2C', desc: 'You make and brand a product and sell it straight to consumers — through your own site or app, plus marketplaces and quick commerce. You keep the margin and the customer data, and you pay for every customer you acquire.', children: ['Own brand', 'Own customer data', 'Performance marketing'] },
+        { label: 'B2B', desc: 'Businesses buy from you, usually after several people agree. Deals are bigger and slower, contracts and relationships matter, and keeping customers growing is the profit engine.', children: ['Buying committees', 'Contracts', 'Account expansion'] },
+        { label: 'B2C', desc: 'You sell to consumers, whether or not you make the product — retailers, restaurants, apps, services and platforms. Location, experience, frequency and brand drive the economics.', children: ['Footfall or downloads', 'Frequency', 'Experience'] },
+        { label: 'C2C', desc: 'Consumers trade with each other on your platform. You do not own the goods; you create trust and liquidity and keep a small share of each transaction.', children: ['Liquidity', 'Trust & safety', 'Take rate'] }
+      ] },
+    { type: 'compare', title: 'The four models side by side', headers: ['', 'D2C', 'B2B', 'B2C', 'C2C'], rows: [
+      ['Who buys', 'Individual consumers, from your brand', 'Organisations — often a committee', 'Individual consumers, from a retailer, app or service', 'Consumers, from other consumers'],
+      ['Ticket size', 'Low to mid', 'High', 'Low to mid', 'Varies; you keep a small %'],
+      ['Sales cycle', 'Minutes to days', 'Weeks to months', 'Minutes', 'Minutes to days'],
+      ['Growth engine', 'Paid social, creators, repeat purchase', 'Sales team, referrals, partners, content', 'Location or app store, brand, loyalty', 'Network effects, SEO, word of mouth'],
+      ['Numbers to watch', 'Contribution margin per order, CAC, repeat rate', 'Contract value, win rate, net revenue retention, CAC payback', 'Basket size, frequency, retention, store profit', 'GMV, take rate, sell-through, trust incidents'],
+      ['Biggest risk', 'Rising ad costs and returns', 'Long cycles, customer concentration', 'Thin margins, rent and labour', 'Cold start, leakage, fraud'],
+      ['Typical moat', 'Brand, community, product', 'Switching costs, integrations, relationships', 'Scale, locations, brand', 'Network effects']
+    ] },
+    { type: 'flow', title: 'Which playbook fits your idea?', steps: [
+      { label: 'Write one sentence: who pays you, for what?', desc: 'Name the person or organisation that hands over money. That decides the playbook more than the product does.' },
+      { label: 'Is the buyer a business or institution?', kind: 'decision', desc: 'If a company, school, hospital or government pays — even if consumers use the product — start with the B2B playbook.', branches: [{ label: 'Yes', to: 'B2B playbook' }, { label: 'No', to: 'next question' }] },
+      { label: 'Do you make and brand the product yourself?', kind: 'decision', desc: 'If you own the brand and sell it straight to shoppers, read D2C.', branches: [{ label: 'Yes', to: 'D2C playbook' }, { label: 'No', to: 'next question' }] },
+      { label: 'Do consumers sell to other consumers through you?', kind: 'decision', desc: 'If your platform matches individual sellers with individual buyers, read C2C.', branches: [{ label: 'Yes', to: 'C2C playbook' }, { label: 'No', to: 'B2C playbook' }] },
+      { label: 'Hybrid? Read two playbooks', desc: 'Many businesses mix models: a D2C brand that also supplies retailers (B2B), or a marketplace with professional sellers (B2C). Read the playbook for each money stream.' }
+    ] }
+  ];
   P.series = function (id) {
     var S = SERIES[id] || SERIES.marketing;
     var tracks = MBA.tracks.filter(function (t) { return t.series === S.name; });
@@ -583,10 +611,11 @@
     var all = 0, done = 0;
     tracks.forEach(function (t) { t.lessons.forEach(function (l) { all++; if (MBA.store.isDone(l.id) || MBA.store.isTested(l.id)) done++; }); });
     page.appendChild(h('section.side-box', h('h4', done + ' of ' + all + ' lessons done'), h('div.xpbar', h('i', { style: { width: (all ? done / all * 100 : 0) + '%' } }))));
-    // big-picture loop
-    page.appendChild(RD.block({ type: 'cycle', title: 'The big picture', center: 'Customer value', steps: tracks.map(function (t, i) {
+    // big-picture visuals
+    if (S.flow) page.appendChild(RD.block({ type: 'cycle', title: 'The big picture', center: 'Customer value', steps: tracks.map(function (t, i) {
       return { label: S.flow[i] || t.title, desc: '<b>' + t.title + '</b><br>' + (t.summary || '') + '<br><a href="#/track/' + t.id + '">Open the track →</a>' };
     }) }));
+    if (S.extra) S.extra().forEach(function (b) { page.appendChild(RD.block(b, { id: 'series-' + id })); });
     // journey: parts as stations, lessons as stops
     page.appendChild(h('h2', 'The journey, lesson by lesson'));
     page.appendChild(h('ol.journey', tracks.map(function (t, ti) {
