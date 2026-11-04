@@ -35,9 +35,11 @@
       var n = h('button.fw-step', { style: { '--i': i }, onclick: function () { stop(); go(i); } }, h('span.fw-num', String(i + 1)), h('span.fw-label', s.label));
       return n;
     });
+    var beam = h('i');
     function go(i) {
       cur = i;
       nodes.forEach(function (n, k) { n.classList.toggle('active', k === i); n.classList.toggle('seen', k < i); });
+      beam.style.width = ((i + 1) / steps.length * 100) + '%';
       detail.innerHTML = '';
       detail.appendChild(h('div.fw-card', h('small', 'Step ' + (i + 1) + ' of ' + steps.length), h('h4', steps[i].label), html(steps[i].desc)));
     }
@@ -54,6 +56,7 @@
       h('h3', b.name), b.by ? h('p.byline', b.by) : null,
       b.when ? h('p.when', h('b', 'Use it when: '), b.when) : null,
       h('div.fw-steps' + (steps.length > 6 ? '.many' : ''), nodes),
+      h('div.fw-progress', { 'aria-hidden': 'true' }, beam),
       h('div.fw-controls', play, h('button.btn.small.ghost', { onclick: function () { stop(); if (cur > 0) go(cur - 1); } }, '←'), h('button.btn.small.ghost', { onclick: function () { stop(); if (cur < steps.length - 1) go(cur + 1); } }, '→')),
       detail);
   };
@@ -95,7 +98,7 @@
 
   R.timeline = function (b) {
     return h('section.block.reveal', h('div.block-tag', '🕰️ Timeline'), h('h3', b.title || 'Timeline'),
-      h('ol.timeline', (b.items || []).map(function (it, i) { return h('li', { style: { '--i': i } }, h('b', it.label), html(it.desc)); })));
+      h('ol.timeline.living', (b.items || []).map(function (it, i) { return h('li', { style: { '--i': i } }, h('b', it.label), html(it.desc)); })));
   };
 
   R.case = function (b) {
@@ -156,9 +159,12 @@
       return h('li.flow-item', { style: { '--i': i } }, btn,
         (st.branches || []).length ? h('div.flow-branches', st.branches.map(function (br) { return h('span.flow-branch', h('b', br.label), br.to ? ' → ' + br.to : ''); })) : null);
     }));
+    var token = h('span.flow-token', { 'aria-hidden': 'true' });
     function go(i) {
       cur = i;
       nodes.forEach(function (n, k) { n.classList.toggle('active', k === i); n.classList.toggle('seen', k < i); });
+      var wr = token.parentNode && token.parentNode.getBoundingClientRect(), nr = nodes[i].getBoundingClientRect();
+      if (wr && nr.height) { token.style.top = (nr.top - wr.top + nr.height / 2) + 'px'; token.style.left = (nr.left - wr.left - 4) + 'px'; token.classList.add('on'); }
       var st = steps[i];
       showDetail(panel, st.label, st.desc, (st.branches || []).length ? h('ul.flow-branch-list', st.branches.map(function (br) { return h('li', h('b', br.label + ': '), br.to || ''); })) : null);
     }
@@ -169,7 +175,7 @@
       timer = setInterval(function () { if (cur >= steps.length - 1) return stop(); go(cur + 1); }, 3600);
     } }, '▶ Play');
     return h('section.block.reveal', h('div.block-tag', '🔀 Flowchart'), h('h3', b.title || 'Process'), b.when ? h('p.when', h('b', 'Use it when: '), b.when) : null,
-      chart, h('div.fw-controls', play), panel);
+      h('div.flow-wrap', chart, token), h('div.fw-controls', play), panel);
   };
 
   /* Concept map: a central idea with branches; each branch has sub-ideas and an explanation. */
@@ -190,7 +196,12 @@
       } }, x.label);
       return btn;
     });
+    lines.querySelectorAll('line').forEach(function (l) { l.classList.add('cmap-flow'); });
     wrap.appendChild(lines);
+    br.forEach(function (x, i) {
+      var a = -Math.PI / 2 + i * 2 * Math.PI / n;
+      wrap.appendChild(h('span.cmap-pulse', { 'aria-hidden': 'true', style: { '--x': (50 + Math.cos(a) * 38) + '%', '--y': (50 + Math.sin(a) * 38) + '%', '--d': (i * 0.45) + 's' } }));
+    });
     wrap.appendChild(h('div.cmap-center', b.center || b.title));
     btns.forEach(function (x) { wrap.appendChild(x); });
     return h('section.block.reveal', h('div.block-tag', '🕸️ Concept map'), h('h3', b.title || b.center), wrap, panel);
@@ -199,7 +210,8 @@
   /* Cycle: steps around a loop (e.g. a continuous process). */
   R.cycle = function (b) {
     var st = b.steps || [], n = st.length, panel = detailPanel('Tap a stage. The arrows show that the last stage feeds the first.'), cur = -1, timer = null;
-    var ring = h('div.cycle', { style: { '--n': n } }, h('div.cycle-ring', { 'aria-hidden': 'true' }), h('div.cycle-center', b.center || '↻'));
+    var comet = h('div.cycle-orbit', { 'aria-hidden': 'true', style: { '--dur': (n * 3.2) + 's' } }, h('span.cycle-comet'));
+    var ring = h('div.cycle', { style: { '--n': n } }, h('div.cycle-ring', { 'aria-hidden': 'true' }), comet, h('div.cycle-center', b.center || '↻'));
     var nodes = st.map(function (x, i) {
       var a = -Math.PI / 2 + i * 2 * Math.PI / n;
       var btn = h('button.cycle-node', { type: 'button', style: { left: (50 + Math.cos(a) * 40) + '%', top: (50 + Math.sin(a) * 40) + '%', '--i': i }, onclick: function () { stop(); go(i); } }, h('b', String(i + 1)), h('span', x.label));
@@ -208,7 +220,8 @@
     function go(i) { cur = i; nodes.forEach(function (x, k) { x.classList.toggle('active', k === i); }); showDetail(panel, (i + 1) + '. ' + st[i].label, st[i].desc); }
     function stop() { if (timer) { clearInterval(timer); timer = null; play.textContent = '▶ Play'; } }
     var play = h('button.btn.small', { type: 'button', onclick: function () {
-      if (timer) return stop(); play.textContent = '⏸ Pause'; go((cur + 1) % n);
+      if (timer) return stop(); play.textContent = '⏸ Pause'; cur = -1; go(0);
+      comet.classList.remove('sync'); void comet.offsetWidth; comet.classList.add('sync');
       timer = setInterval(function () { go((cur + 1) % n); }, 3200);
     } }, '▶ Play the loop');
     return h('section.block.reveal', h('div.block-tag', '🔄 Cycle'), h('h3', b.title || 'Cycle'), ring, h('div.fw-controls', play), panel);
@@ -219,13 +232,14 @@
     var lv = b.levels || [], n = lv.length, inv = !!b.invert, panel = detailPanel(inv ? 'Tap a stage of the funnel.' : 'Tap a level. Read it from the base (foundation) up to the top.');
     var btns = lv.map(function (x, i) {
       var w = inv ? 100 - i * (60 / Math.max(1, n - 1)) : 40 + i * (60 / Math.max(1, n - 1));
-      var btn = h('button.pyr-level', { type: 'button', style: { width: w + '%', '--i': i, '--shade': (inv ? i : n - 1 - i) / Math.max(1, n - 1) }, onclick: function () {
+      var btn = h('button.pyr-level', { type: 'button', style: { width: w + '%', '--i': inv ? i : n - 1 - i, '--shade': (inv ? i : n - 1 - i) / Math.max(1, n - 1) }, onclick: function () {
         btns.forEach(function (o, k) { o.classList.toggle('active', k === i); });
         showDetail(panel, x.label, x.desc);
       } }, h('span', x.label), x.note ? h('small', x.note) : null);
       return btn;
     });
-    return h('section.block.reveal', h('div.block-tag', inv ? '🔻 Funnel' : '🔺 Pyramid'), h('h3', b.title || ''), h('div.pyr' + (inv ? '.inv' : ''), btns), panel);
+    var drops = inv ? [0, 1, 2, 3, 4, 5].map(function (k) { return h('span.pyr-drop', { 'aria-hidden': 'true', style: { '--k': k, '--depth': (35 + (k % 3) * 25) + '%' } }); }) : [];
+    return h('section.block.reveal', h('div.block-tag', inv ? '🔻 Funnel' : '🔺 Pyramid'), h('h3', b.title || ''), h('div.pyr' + (inv ? '.inv' : ''), btns, drops), panel);
   };
 
   function block(b, ctx) {
@@ -314,17 +328,24 @@
     var done = MBA.store.isDone(l.id);
     var page = h('article.lesson', { style: { '--track': t.color } });
     page.appendChild(h('nav.crumbs', h('a', { href: '#/path' }, 'Learning path'), ' / ', h('a', { href: '#/track/' + t.id }, t.icon + ' ' + t.title), ' / ', h('span', 'Lesson ' + (i + 1))));
+    var progress = h('div.read-progress', { 'aria-hidden': 'true' }, h('i'));
+    var visual = (l.blocks || []).filter(function (b) { return /^(flow|map|cycle|pyramid|framework|matrix|timeline|interactive)$/.test(b.type); }).length;
+    page.appendChild(progress);
     page.appendChild(h('header.lesson-head',
-      h('div.lesson-meta', h('span.pill.lvl-' + (l.level || 'Beginner').toLowerCase(), l.level || 'Beginner'), h('span.pill', '⏱ ' + (l.minutes || 10) + ' min'), done ? h('span.pill.good', '✓ Completed') : null,
+      h('p.mono.eyebrow', 'Lesson ' + (i + 1 < 10 ? '0' : '') + (i + 1) + ' of ' + (ls.length < 10 ? '0' : '') + ls.length),
+      h('h1', l.title), l.hook ? h('p.hook', l.hook) : null,
+      h('div.lesson-meta', h('span.pill.lvl-' + (l.level || 'Beginner').toLowerCase(), l.level || 'Beginner'), h('span.pill', '⏱ ' + (l.minutes || 10) + ' min'),
+        visual ? h('span.pill', '✦ ' + visual + ' interactive visuals') : null, done ? h('span.pill.good', '✓ Completed') : null,
         bookmarkBtn('lesson:' + l.id, t.icon + ' ' + l.title, '#/lesson/' + l.id)),
-      h('h1', l.title), l.hook ? h('p.hook', l.hook) : null));
+      lessonMap(l)));
     if (MBA.store.isTested(l.id) && !done) page.appendChild(h('aside.callout.tip', h('div.callout-head', h('span', '🎯'), h('b', 'Tested out')), h('p', 'Your placement test showed you know this. Skim it, take the quiz, or mark it complete to count it towards a certificate.')));
-    if (l.eli5) page.appendChild(h('section.eli5.reveal', h('div.eli5-badge', '🧒 Explain it simply'), html(l.eli5)));
+    if (l.eli5) page.appendChild(h('section.eli5.reveal', h('div.eli5-badge.mono', 'Explain it simply'), html(l.eli5)));
     var body = h('div.lesson-body');
-    (l.blocks || []).forEach(function (b) { body.appendChild(block(b, l)); });
+    (l.blocks || []).forEach(function (b, k) { var n = block(b, l); n.id = 'b-' + k; body.appendChild(n); });
     page.appendChild(body);
     if (l.terms && l.terms.length) {
-      page.appendChild(h('section.terms.reveal', h('h2', '📖 Key terms'), h('dl', l.terms.map(function (x) { return [h('dt', x.term), h('dd', { html: x.def })]; }))));
+      page.appendChild(h('section.terms.reveal', h('h2', '📖 Key terms'), h('p.muted.small', 'Tap a term to see its meaning and where else it appears.'),
+        h('div.term-chips', l.terms.map(function (x) { return h('button.term-chip', { type: 'button', onclick: function () { termDrawer(x, l); } }, x.term); }))));
     }
     if (l.takeaways && l.takeaways.length) page.appendChild(h('section.takeaways.reveal', h('h2', '🎯 Key takeaways'), h('ul', l.takeaways.map(function (x) { return h('li', { html: x }); }))));
     if (l.quiz && l.quiz.length) page.appendChild(quiz(l));
@@ -335,10 +356,34 @@
       if (next) location.hash = '#/lesson/' + next.id;
       else { U.toast('Track complete! 🎓 Certificate unlocked in your profile.'); location.hash = '#/track/' + t.id; }
     } }, done ? (next ? 'Next lesson →' : 'Back to track') : (next ? '✓ Mark complete & continue →' : '✓ Complete track'));
+    function onScroll() {
+      if (!document.body.contains(progress)) { window.removeEventListener('scroll', onScroll); return; }
+      var r = page.getBoundingClientRect(), total = r.height - window.innerHeight;
+      progress.firstChild.style.width = Math.max(0, Math.min(1, total > 0 ? -r.top / total : 1)) * 100 + '%';
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
     page.appendChild(h('footer.lesson-foot',
       prev ? h('a.btn.ghost', { href: '#/lesson/' + prev.id }, '← ' + prev.title) : h('span'),
       completeBtn));
     return page;
+  }
+
+  /* A strip of icons, one per block, that jumps to that part of the lesson. */
+  var BLOCK_ICON = { text: '¶', callout: '💡', framework: '🧠', matrix: '🔲', formula: '🧮', compare: '⚖️', flip: '🃏', timeline: '🕰️', 'case': '📚', interactive: '🎮', scenario: '🎯', checklist: '☑️', flow: '🔀', map: '🕸️', cycle: '🔄', pyramid: '🔺' };
+  function lessonMap(l) {
+    return h('nav.lesson-map', { 'aria-label': 'Jump to a part of this lesson' }, (l.blocks || []).map(function (b, k) {
+      var label = b.title || b.name || b.company || b.center || b.type;
+      return h('a.lm-dot', { href: '#', title: label, 'aria-label': label, style: { '--i': k }, onclick: function (e) {
+        e.preventDefault(); var t = document.getElementById('b-' + k); if (t) t.scrollIntoView({ behavior: U.reduceMotion ? 'auto' : 'smooth', block: 'start' });
+      } }, BLOCK_ICON[b.type] || '•');
+    }));
+  }
+  function termDrawer(x, l) {
+    var key = x.term.toLowerCase(), also = [];
+    MBA.allLessons().forEach(function (y) { if (y.lesson.id !== l.id && (y.lesson.terms || []).some(function (t) { return t.term.toLowerCase() === key; })) also.push(y); });
+    U.drawer(h('p.mono.eyebrow', 'Key term'), h('h2', x.term), h('div.rich.drawer-def', { html: x.def }),
+      also.length ? h('div', h('p.mono.eyebrow', 'Also appears in'), h('ul.clean', also.slice(0, 8).map(function (y) { return h('li', h('a', { href: '#/lesson/' + y.lesson.id }, y.track.icon + ' ' + y.lesson.title)); }))) : null,
+      h('div.row-actions.start', h('a.btn.small', { href: '#/review' }, '🔁 Review flashcards'), h('a.btn.small.ghost', { href: '#/glossary' }, 'Open glossary')));
   }
 
   MBA.render = { block: block, lesson: lesson, widget: widget, html: html, quiz: quiz, challenge: challenge, bookmarkBtn: bookmarkBtn, noteBox: noteBox };

@@ -34,49 +34,64 @@
   P.home = function () {
     var lv = MBA.store.level(), nx = nextLesson(), totalL = MBA.allLessons().length;
     var doneL = Object.keys(MBA.store.get().done).length;
-    var hero = h('section.hero',
-      h('div.hero-text',
-        h('p.eyebrow', 'The interactive business school'),
-        h('h1', 'From ', h('span.grad', 'zero'), ' to ', h('span.grad', 'boardroom'), '.'),
-        h('p.lead', 'Everything top B-schools teach — strategy, finance, marketing, operations, people, investing — plus how the best operators run companies today. Explained simply, made interactive, tested with real cases.'),
-        h('div.hero-cta',
-          h('a.btn.big', { href: nx ? '#/lesson/' + nx.lesson.id : '#/path' }, doneL ? 'Continue learning →' : 'Start from zero →'),
-          h('a.btn.big.ghost', { href: '#/lab' }, '💡 I have an idea'))),
-      h('div.hero-art', { 'aria-hidden': 'true' }, heroArt()));
-    var stats = h('section.kpis',
-      kpi('🏅', lv.name, lv.xp.toLocaleString() + ' XP'),
-      kpi('🔥', MBA.store.streak() + ' day streak', 'Learn a little every day'),
-      kpi('📘', doneL + ' / ' + totalL, 'lessons completed'),
-      kpi('🧭', MBA.tracks.length + ' tracks', MBA.cases.length + ' cases · ' + MBA.challenges.length + ' challenges'));
-    var who = h('section.paths',
-      h('h2', 'Where are you starting?'),
-      h('div.path-grid',
-        persona('🌱', 'Total beginner', 'Never studied business? Start with Foundations: what a business is, how money flows, how markets work.', '#/track/business-101', 'Start Business 101'),
-        persona('💡', 'I have an idea', 'Get clarity in 20 minutes: the Idea Clarity Lab turns your fuzzy idea into a one-page plan and experiments to run.', '#/lab', 'Open the Lab'),
-        persona('🏪', 'I run a business', 'Run the Business Health Diagnostic. Get a scored report and the exact lessons and tools to fix your weakest areas.', '#/advisor', 'Diagnose my business'),
-        persona('👔', 'C-suite / advisor track', 'Strategy, capital, governance, consulting toolkit, decision-making — and 30+ case problems to practise on.', '#/arena', 'Enter the Arena')));
-    var stages = h('section', h('h2', 'The curriculum'), h('p.muted', MBA.STAGES.length + ' stages · ' + MBA.tracks.length + ' tracks · ' + totalL + ' lessons — designed so each builds on the last.'),
-      h('div.stage-strip', MBA.STAGES.map(function (s) {
-        var ts = MBA.tracks.filter(function (t) { return t.stage === s.n; });
-        return h('a.stage-card.reveal', { href: '#/path#stage-' + s.n }, h('span.stage-n', 'Stage ' + s.n), h('h3', s.icon + ' ' + s.name), h('p', s.desc), h('div.stage-icons', ts.map(function (t) { return h('span', { title: t.title }, t.icon); })));
-      })));
-    var tools = h('section', h('h2', 'Learn by playing'), h('p.muted', 'Move sliders, watch the numbers and charts react, and build intuition no textbook gives you.'),
-      h('div.tool-mini', ['unit-economics', 'breakeven', 'pricing-elasticity', 'runway', 'cap-table', 'funnel'].map(function (id) {
-        var w = MBA.widgets[id]; return w ? h('a.tool-chip', { href: '#/tool/' + id }, h('span', w.icon), w.title) : null;
-      }), h('a.tool-chip.more', { href: '#/toolkit' }, 'All ' + Object.keys(MBA.widgets).length + ' tools →')));
+    var canvas = h('canvas.hero-canvas', { 'aria-hidden': 'true' });
+    var hero = h('section.hero2',
+      canvas,
+      h('div.hero-in',
+        h('div.hero-copy',
+          h('p.mono.eyebrow', 'The interactive business school'),
+          h('h1', 'From zero to ', h('span.hl-gold', 'boardroom'), '.'),
+          h('p.lede', 'Strategy, finance, marketing, operations, people and investing — explained simply, drawn as living diagrams, and practised on real cases.'),
+          h('div.hero-cta',
+            h('a.btn.big', { href: nx ? '#/lesson/' + nx.lesson.id : '#/path' }, doneL ? 'Continue learning →' : 'Start from zero →'),
+            h('a.btn.big.ghost', { href: '#/placement' }, 'Take the placement test'))),
+        h('div.big-q',
+          bigQ('🌱', 'I am new to business', 'Start with how a business works and how money flows.', '#/track/business-101'),
+          bigQ('💡', 'I have an idea', 'Turn it into a one-page plan in twenty minutes.', '#/lab'),
+          bigQ('🏪', 'I run a business', 'Get a scored health check and the fixes that matter.', '#/advisor'),
+          bigQ('👔', 'I want the C-suite', 'Cases, simulations and the consultant\'s toolkit.', '#/careers'))));
+    var stageMeters = h('div.meters', MBA.STAGES.map(function (st) {
+      var ls = []; MBA.tracks.filter(function (t) { return t.stage === st.n; }).forEach(function (t) { ls = ls.concat(t.lessons); });
+      var d = ls.filter(function (l) { return MBA.store.isDone(l.id) || MBA.store.isTested(l.id); }).length, p = ls.length ? d / ls.length : 0;
+      return h('a.meter', { href: '#/path#stage-' + st.n }, h('span', st.icon + ' ' + st.name), h('span.bar', h('i', { 'data-w': (p * 100).toFixed(1) })), h('span.v', d + '/' + ls.length));
+    }));
+    var next = nx ? h('a.next-card', { href: '#/lesson/' + nx.lesson.id, style: { '--track': nx.track.color } },
+      h('span.mono.eyebrow', 'Up next · ' + nx.track.title), h('b', nx.lesson.title), h('small', (nx.lesson.level || '') + ' · ' + (nx.lesson.minutes || 10) + ' min'), h('span.next-go', '→'))
+      : h('p', 'You have finished every lesson. Try the company simulation or the case arena.');
+    var today = h('section.today',
+      h('div.panel.today-main', h('p.mono.eyebrow', 'Today'), h('h2', doneL ? 'Pick up where you left off' : 'Your first lesson is waiting'), next,
+        h('div.today-chips', chip('🏅', lv.name), chip('⚡', lv.xp.toLocaleString() + ' XP'), chip('🔥', MBA.store.streak() + '-day streak'), chip('📘', doneL + ' / ' + totalL + ' lessons'))),
+      h('div.panel', h('p.mono.eyebrow', 'Your progress by stage'), stageMeters));
     var daily = MBA.cases.length ? (function () {
       var c = MBA.cases[new Date().getDate() % MBA.cases.length];
-      return h('section.daily', h('div', h('p.eyebrow', 'Case of the day'), h('h2', c.company + ': ' + c.title), h('p', c.question)), h('a.btn', { href: '#/case/' + c.id }, 'Make the call →'));
+      return h('section.daily', h('div', h('p.mono.eyebrow', 'Case of the day · ' + (c.industry || '')), h('h2', c.company + ': ' + c.title), h('p', c.question)), h('a.btn', { href: '#/case/' + c.id + '/discuss' }, 'Make the call →'));
     })() : null;
-    var practice = h('section', h('h2', 'Practise like a business school'), h('p.muted', 'Case discussions, a company you run for eight quarters, spaced-repetition review and a capstone plan.'),
+    var practice = h('section.sec', h('div.sec-h', h('h2', 'Practise like a business school'), h('p.muted', 'Case discussions, a company you run for eight quarters, spaced-repetition review and a capstone plan.')),
       h('div.tool-mini',
-        h('a.tool-chip', { href: '#/placement' }, h('span', '🎯'), 'Placement test'),
-        h('a.tool-chip', { href: '#/careers' }, h('span', '🧭'), 'Career paths'),
         h('a.tool-chip', { href: '#/sim' }, h('span', '🏭'), 'Company simulation'),
         h('a.tool-chip', { href: '#/review' }, h('span', '🔁'), 'Review flashcards'),
-        h('a.tool-chip', { href: '#/capstone' }, h('span', '🎓'), 'Capstone plan')));
-    return h('div.page.home', hero, stats, who, daily, practice, stages, tools);
+        h('a.tool-chip', { href: '#/series/marketing' }, h('span', '🗺️'), 'Marketing map'),
+        h('a.tool-chip', { href: '#/capstone' }, h('span', '🎓'), 'Capstone plan'),
+        h('a.tool-chip', { href: '#/arena' }, h('span', '🏆'), 'Challenge arena')));
+    var stages = h('section.sec', h('div.sec-h', h('h2', 'The curriculum'), h('p.muted', MBA.STAGES.length + ' stages · ' + MBA.tracks.length + ' tracks · ' + totalL + ' lessons — each builds on the last.')),
+      h('div.stage-strip', MBA.STAGES.map(function (st) {
+        var ts = MBA.tracks.filter(function (t) { return t.stage === st.n; });
+        return h('a.stage-card.reveal', { href: '#/path#stage-' + st.n }, h('span.stage-n.mono', 'Stage 0' + st.n), h('h3', st.icon + ' ' + st.name), h('p', st.desc), h('div.stage-icons', ts.map(function (t) { return h('span', { title: t.title }, t.icon); })));
+      })));
+    var tools = h('section.sec', h('div.sec-h', h('h2', 'Learn by playing'), h('p.muted', 'Move a slider and watch the numbers, charts and explanation react.')),
+      h('div.tool-mini', ['unit-economics', 'breakeven', 'decision-tree', 'monte-carlo', 'beer-game', 'negotiation-zopa'].map(function (id) {
+        var w = MBA.widgets[id]; return w ? h('a.tool-chip', { href: '#/tool/' + id }, h('span', w.icon), w.title) : null;
+      }), h('a.tool-chip.more', { href: '#/toolkit' }, 'All ' + Object.keys(MBA.widgets).length + ' tools →')));
+    var page = h('div.page.home', hero, today, daily, practice, stages, tools);
+    requestAnimationFrame(function () {
+      if (!document.body.contains(canvas)) return;
+      U.neuralCanvas(canvas);
+      stageMeters.querySelectorAll('.bar i').forEach(function (i) { i.style.width = i.getAttribute('data-w') + '%'; });
+    });
+    return page;
   };
+  function bigQ(icon, title, text, href) { return h('a.bq', { href: href }, h('span.bq-ico', icon), h('b', title), h('span', text)); }
+  function chip(icon, text) { return h('span.stat-chip', h('span', { 'aria-hidden': 'true' }, icon), text); }
   function kpi(icon, a, b) { return h('div.kpi', h('span', icon), h('div', h('b', a), h('small', b))); }
   function persona(icon, title, text, href, cta) { return h('a.persona.reveal', { href: href }, h('span.p-icon', icon), h('h3', title), h('p', text), h('span.link', cta + ' →')); }
   function heroArt() {

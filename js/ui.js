@@ -272,7 +272,70 @@
   }
   var embedded = (function () { try { return window.self !== window.top; } catch (e) { return true; } })();
 
+  /* ---------- slide-out detail drawer ---------- */
+  var drawerEl = null, drawerBody = null, drawerScrim = null, lastFocus = null;
+  function drawerInit() {
+    if (drawerEl) return;
+    drawerScrim = h('div.drawer-scrim', { onclick: drawerClose });
+    drawerBody = h('div.drawer-body');
+    drawerEl = h('aside.drawer', { role: 'dialog', 'aria-modal': 'true', 'aria-label': 'Details', tabindex: '-1' },
+      h('button.drawer-x', { type: 'button', 'aria-label': 'Close details', onclick: drawerClose }, '×'), drawerBody);
+    document.body.appendChild(drawerScrim); document.body.appendChild(drawerEl);
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && drawerEl.classList.contains('open')) drawerClose(); });
+  }
+  function drawer() {
+    drawerInit(); lastFocus = document.activeElement;
+    drawerBody.innerHTML = '';
+    Array.prototype.slice.call(arguments).forEach(function (c) { if (c) drawerBody.appendChild(c.nodeType ? c : document.createTextNode(String(c))); });
+    drawerEl.classList.add('open'); drawerScrim.classList.add('open'); drawerEl.scrollTop = 0;
+    setTimeout(function () { drawerEl.querySelector('.drawer-x').focus(); }, 60);
+  }
+  function drawerClose() {
+    if (!drawerEl || !drawerEl.classList.contains('open')) return;
+    drawerEl.classList.remove('open'); drawerScrim.classList.remove('open');
+    if (lastFocus && document.body.contains(lastFocus)) lastFocus.focus();
+  }
+
+  /* ---------- living network canvas: drifting nodes, links, and value pulses travelling along them ---------- */
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function cssVar(n) { return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+  function neuralCanvas(cv) {
+    var ctx = cv.getContext('2d'), w = 0, hgt = 0, dpr = Math.min(2, window.devicePixelRatio || 1), nodes = [], pulses = [];
+    var gold = cssVar('--accent'), teal = cssVar('--accent-2'), coral = cssVar('--bad'), violet = cssVar('--violet'), line = cssVar('--line');
+    function size() {
+      var r = cv.getBoundingClientRect(); w = r.width; hgt = r.height;
+      cv.width = w * dpr; cv.height = hgt * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      var n = Math.round(Math.min(72, w * hgt / 8500));
+      nodes = []; for (var i = 0; i < n; i++) nodes.push({ x: Math.random() * w, y: Math.random() * hgt, vx: (Math.random() - .5) * .22, vy: (Math.random() - .5) * .22, big: Math.random() < .12 });
+    }
+    size();
+    function frame() {
+      if (!document.body.contains(cv)) return;
+      ctx.clearRect(0, 0, w, hgt);
+      nodes.forEach(function (n) { n.x += n.vx; n.y += n.vy; if (n.x < 0 || n.x > w) n.vx *= -1; if (n.y < 0 || n.y > hgt) n.vy *= -1; });
+      ctx.lineWidth = 1;
+      for (var i = 0; i < nodes.length; i++) for (var j = i + 1; j < nodes.length; j++) {
+        var a = nodes[i], b = nodes[j], d = Math.hypot(a.x - b.x, a.y - b.y);
+        if (d < 120) {
+          ctx.globalAlpha = (1 - d / 120) * .6; ctx.strokeStyle = line; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+          if (Math.random() < .0011 && pulses.length < 30) pulses.push({ a: a, b: b, t: 0, c: [gold, teal, gold, violet, coral][Math.floor(Math.random() * 5)] });
+        }
+      }
+      ctx.globalAlpha = 1;
+      nodes.forEach(function (n) { ctx.fillStyle = n.big ? gold : line; ctx.beginPath(); ctx.arc(n.x, n.y, n.big ? 2.6 : 1.7, 0, 7); ctx.fill(); });
+      pulses = pulses.filter(function (p) { return p.t <= 1; });
+      pulses.forEach(function (p) {
+        p.t += .016; var x = p.a.x + (p.b.x - p.a.x) * p.t, y = p.a.y + (p.b.y - p.a.y) * p.t;
+        ctx.fillStyle = p.c; ctx.shadowColor = p.c; ctx.shadowBlur = 12; ctx.beginPath(); ctx.arc(x, y, 2.6, 0, 7); ctx.fill(); ctx.shadowBlur = 0;
+      });
+      if (!reduceMotion) requestAnimationFrame(frame);
+    }
+    frame();
+    window.addEventListener('resize', function () { if (document.body.contains(cv)) size(); }, { passive: true });
+  }
+
   MBA.ui = {
+    drawerInit: drawerInit, drawer: drawer, drawerClose: drawerClose, neuralCanvas: neuralCanvas, reduceMotion: reduceMotion,
     confirmBtn: confirmBtn, embedded: embedded,
     esc: esc, h: h, fmt: fmt, money: money, pct: pct, toast: toast, confetti: confetti, reveal: reveal,
     countUp: countUp, lineChart: lineChart, barChart: barChart, radar: radar, slider: slider, numInput: numInput, stat: stat

@@ -84,6 +84,9 @@
     var h1 = main.querySelector('h1');
     document.title = (h1 && parts.length ? h1.textContent + ' · ' : '') + 'MBA Studio';
     document.body.classList.remove('nav-open');
+    U.drawerClose && U.drawerClose();
+    var act = document.querySelector('.nav a.active');
+    if (act && window.innerWidth <= 900 && act.scrollIntoView) act.scrollIntoView({ inline: 'center', block: 'nearest' });
     if (anchor) { var t = document.getElementById(anchor); if (t) setTimeout(function () { t.scrollIntoView({ behavior: 'smooth' }); }, 60); }
     else window.scrollTo(0, 0);
     U.reveal(main);
@@ -112,14 +115,23 @@
       h('input', { name: 'q', type: 'search', placeholder: 'Search lessons, terms, frameworks…', 'aria-label': 'Search' }));
     var app = h('div.app',
       h('aside.side',
-        h('a.brand', { href: '#/' }, h('span.logo', 'M'), h('span', h('b', 'MBA Studio'), h('small', 'Zero → Boardroom'))),
-        h('nav.nav', { 'aria-label': 'Main' }, NAV.map(function (n) { return typeof n === 'string' ? h('span.nav-group', n) : h('a', { href: n[0] }, h('span', { 'aria-hidden': 'true' }, n[1]), n[2]); })),
+        h('a.brand', { href: '#/', 'aria-label': 'MBA Studio home' }, logo(), h('span', h('b', 'MBA Studio'), h('small', 'Zero → Boardroom'))),
+        h('nav.nav', { 'aria-label': 'Main' }, (function () {
+          var n = 0;
+          return NAV.map(function (it) {
+            if (typeof it === 'string') return h('span.nav-group', it);
+            n++;
+            return h('a', { href: it[0] }, h('span.nav-n', { 'aria-hidden': 'true' }, (n < 10 ? '0' : '') + n), h('span.nav-ico', { 'aria-hidden': 'true' }, it[1]), h('span.nav-label', it[2]));
+          });
+        })()),
         h('div#hud'),
-        h('button.theme-btn', { onclick: function () {
+        h('div.rail-foot', h('button.chipbtn', { type: 'button', onclick: function () {
           var cur = document.documentElement.getAttribute('data-theme');
           var dark = cur ? cur === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
           s.theme = dark ? 'light' : 'dark'; MBA.store.save(); applyTheme(s.theme);
-        } }, '🌓 Toggle theme')),
+          U.toast(s.theme === 'dark' ? 'Dark theme' : 'Light theme');
+          if (MBA.app.route) MBA.app.route();
+        } }, '◐ Theme'), h('span.rail-note', 'Learn · Practise · Build'))),
       h('div.content',
         h('header.topbar', h('button.menu-btn', { 'aria-label': 'Menu', onclick: function () { document.body.classList.toggle('nav-open'); } }, '☰'), search),
         h('main#main'),
@@ -127,6 +139,16 @@
       h('div.scrim', { onclick: function () { document.body.classList.remove('nav-open'); } }),
       h('div#toasts', { 'aria-live': 'polite' }));
     document.body.appendChild(app);
+    U.drawerInit();
+  }
+
+  /* Brand mark: a ring of value (gold) with a growth wave (teal) running through it. */
+  function logo() {
+    var w = document.createElement('span'); w.className = 'logo'; w.setAttribute('aria-hidden', 'true');
+    w.innerHTML = '<svg width="36" height="36" viewBox="0 0 36 36"><circle cx="18" cy="18" r="15.5" fill="none" stroke="var(--accent)" stroke-width="1.6"/>' +
+      '<path class="logo-wave" d="M8 22c3.5-9 6.5 4 9-4.5s6 4.5 10-2.5" fill="none" stroke="var(--accent-2)" stroke-width="2.2" stroke-linecap="round"/>' +
+      '<circle cx="18" cy="17" r="2.6" fill="var(--accent)"/></svg>';
+    return w;
   }
 
   MBA.app = { route: route };

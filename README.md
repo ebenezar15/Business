@@ -6,6 +6,24 @@ All content is original. MBA Studio is not affiliated with any business school.
 
 **Run it:** open `index.html` in any browser. There's no install, no build step and no server, and it works offline (only the web fonts need a connection). To host it, enable GitHub Pages on this repo.
 
+## Design
+
+The interface uses an "observatory" design language: a deep ink-teal background (with a matching light mode) and four accent colours that carry meaning. Gold stands for value and money, teal for growth and health, coral for cost and risk, and violet for thinking and strategy.
+
+**Motion.** Diagrams are alive:
+- Flowcharts send a glowing token from step to step.
+- Concept maps stream value pulses along their branches.
+- Cycles have a comet orbiting in time with the stages.
+- Pyramids build up from the base, and funnels drip particles that thin out.
+- Framework steppers fill a progress beam, and timelines have a flowing spine.
+- The home page runs a living network of value pulses behind the hero.
+
+All motion switches off when your device asks for reduced motion.
+
+**Type.** Text is set in **Avenir Next** wherever it is installed, which includes iPhone, iPad and Mac. Avenir Next is a licensed font, so it isn't bundled. Other devices fall back to **Nunito Sans**, a free and very close match. Labels and numbers use **IBM Plex Mono**.
+
+**Navigation.** A numbered left rail turns into a sticky, scrolling top bar on phones. Key terms open in a slide-out drawer, and every lesson has a reading-progress bar and a jump-to map of its parts.
+
 ## Download and use on any device
 
 **[⬇️ Download MBA-Studio.zip](https://github.com/ebenezar15/Business/raw/claude/gallant-mccarthy-30h9kg/dist/MBA-Studio.zip)** (about 1 MB). Unzip it to get `MBA-Studio.html`, a single file that contains the whole app and works offline. You can also [download the HTML file directly](https://github.com/ebenezar15/Business/raw/claude/gallant-mccarthy-30h9kg/dist/MBA-Studio.html).
