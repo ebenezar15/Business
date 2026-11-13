@@ -160,6 +160,8 @@ MBA.addTrack({
 | `d2c-margin` | D2C per-order contribution waterfall (discounts, returns, COGS, shipping, fees, CAC) and LTV:CAC |
 | `b2b-pipeline` | B2B pipeline maths: coverage, deals and opportunities needed, bookings gap |
 | `marketplace` | two-sided marketplace: listings → GMV → take rate → net revenue → contribution, with leakage |
+| `bid-no-bid` | government bid decision: contract value, margin, bid cost and five scored win factors → Pwin, expected value, verdict |
+| `wrap-rate` | government labor pricing: direct rate + fringe + overhead + G&A + fee → fully burdened hourly rate, multiplier, annual price per FTE |
 
 ---
 

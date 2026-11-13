@@ -11,6 +11,7 @@
     ['#/placement', '🎯', 'Placement test'],
     ['#/careers', '🧳', 'Career paths'],
     ['#/series/playbooks', '🧭', 'Business playbooks'],
+    ['#/series/us', '🦅', 'US business & SAM.gov'],
     ['#/series/marketing', '🗺️', 'Marketing map'],
     ['#/review', '🔁', 'Review flashcards'],
     ['#/practice', '🎲', 'Daily drill'],

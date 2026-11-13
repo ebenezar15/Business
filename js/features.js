@@ -577,7 +577,51 @@
     flow: ['Understand the market', 'Win the right customers', 'Build a brand', 'Shape & deliver the offer', 'Communicate & grow'] },
     playbooks: { name: 'Business Model Playbooks', icon: '🧭',
       intro: 'Four field guides — D2C, B2B, B2C and C2C. Each takes you from market study to start, build, revenue, pricing, costs, brand and scale, with the questions to ask before every big decision.',
-      extra: function () { return PLAYBOOK_EXTRA; } } };
+      extra: function () { return PLAYBOOK_EXTRA; } },
+    us: { name: 'US Business & Government Contracting', icon: '🦅',
+      intro: 'Three connected tracks: form and register a US company, run it and stay compliant, then register on SAM.gov and win government contracts. Every lesson names the official site to check, because rules change. Not legal or tax advice.',
+      extra: function () { return US_EXTRA; } } };
+  var US_EXTRA = [
+    { type: 'flow', title: 'From idea to first government contract', steps: [
+      { label: 'Pick an entity and a state', desc: 'LLC, C-corp or S-corp election; home state or Delaware. Decide on liability, taxes and whether you will raise investment. <a href="#/lesson/us-start-2">Entity lesson →</a>' },
+      { label: 'File formation papers with the Secretary of State', desc: 'Articles of organization (LLC) or certificate of incorporation (corporation), with a registered agent in that state. <a href="#/lesson/us-start-4">Formation lesson →</a>' },
+      { label: 'Get an EIN from the IRS', desc: 'Free, on irs.gov. It is the business\'s federal tax ID, needed for a bank account, payroll and SAM.gov. <a href="#/lesson/us-start-5">EIN lesson →</a>' },
+      { label: 'Open a business bank account and books', desc: 'Keep business money separate from personal money — it protects the liability shield. <a href="#/lesson/us-start-6">Banking lesson →</a>' },
+      { label: 'Register with the state where you operate', desc: 'Foreign qualification if you formed elsewhere, sales tax permit, payroll and unemployment accounts. <a href="#/lesson/us-run-2">State tax lesson →</a>' },
+      { label: 'Licences, permits and insurance', desc: 'Federal, state and local licences for your activity; workers\' compensation once you hire. <a href="#/lesson/us-start-7">Licences lesson →</a>' },
+      { label: 'Do you want to sell to the government?', kind: 'decision', desc: 'Federal agencies buy through contracts that require an active SAM.gov registration.', branches: [{ label: 'Yes', to: 'SAM.gov' }, { label: 'No', to: 'Run & grow' }] },
+      { label: 'Register on SAM.gov (free) and get a UEI and CAGE code', desc: 'Pick your NAICS codes, complete representations and certifications, and renew every year. Never pay a website to do it for you. <a href="#/lesson/us-govcon-2">SAM.gov lesson →</a>' },
+      { label: 'Check your size and certifications', desc: 'SBA size standards decide whether you count as small; 8(a), HUBZone, WOSB and veteran-owned certifications open set-aside contracts. <a href="#/lesson/us-govcon-3">Certifications lesson →</a>' },
+      { label: 'Find, qualify and bid', desc: 'Search SAM.gov Contract Opportunities, answer sources-sought notices, decide bid or no-bid, write a compliant proposal and price it. <a href="#/lesson/us-govcon-5">Bid lesson →</a>' },
+      { label: 'Win, perform and get paid', desc: 'Kick-off, invoices through government payment portals, performance ratings (CPARS) that win the next contract. <a href="#/lesson/us-govcon-8">Performance lesson →</a>' }
+    ] },
+    { type: 'map', title: 'Who registers you where', center: 'Your US business',
+      branches: [
+        { label: 'Secretary of State', desc: 'Forms the company, keeps your registered agent on file, collects annual reports or franchise taxes, and registers you in other states (foreign qualification).', children: ['Formation', 'Annual report', 'Good standing'] },
+        { label: 'IRS (federal)', desc: 'Issues the EIN and receives income-tax, payroll-tax and information returns (W-2, 1099).', children: ['EIN', 'Income tax', 'Payroll tax'] },
+        { label: 'State revenue & labour', desc: 'Sales-tax permit, state income or franchise tax, state payroll withholding, unemployment insurance and new-hire reporting.', children: ['Sales tax', 'Withholding', 'Unemployment'] },
+        { label: 'City & county', desc: 'Local business licence, zoning and occupancy permits, local taxes.', children: ['Business licence', 'Zoning'] },
+        { label: 'USPTO', desc: 'Federal trademark registration for your brand name and logo; patents for inventions.', children: ['Trademark', 'Patent'] },
+        { label: 'FinCEN', desc: 'Beneficial ownership (BOI) reporting. Since a March 2025 rule, US-formed companies are exempt and foreign companies registered in a US state still report — check fincen.gov for the current rule.', children: ['BOI'] },
+        { label: 'SAM.gov & SBA', desc: 'SAM.gov registration and UEI to sell to the federal government; SBA size standards and certifications (8(a), HUBZone, WOSB, VOSB/SDVOSB) for set-asides.', children: ['UEI & CAGE', 'Certifications'] }
+      ] },
+    { type: 'compare', title: 'US entity types at a glance', headers: ['', 'Sole proprietor', 'LLC', 'S-corp (tax election)', 'C-corp'], rows: [
+      ['Formation', 'None (maybe a DBA)', 'Articles of organization', 'An LLC or corporation that files IRS Form 2553', 'Certificate of incorporation'],
+      ['Owner liability', 'Unlimited, personal', 'Limited', 'Limited', 'Limited'],
+      ['Federal tax', 'Owner\'s Form 1040 (Schedule C)', 'Pass-through by default; can elect corporate tax', 'Pass-through on Form 1120-S', 'Corporate tax on Form 1120, then tax on dividends'],
+      ['Who can own it', 'One person', 'Anyone, including foreigners and companies', 'Limited number of US individual shareholders; one class of stock', 'Anyone'],
+      ['Raising venture capital', 'Not possible', 'Awkward', 'Not possible for most VC deals', 'Standard (often Delaware)'],
+      ['Best for', 'Testing an idea alone', 'Small and family businesses, consultancies, foreign-owned firms', 'Profitable small businesses paying owner salaries', 'Startups raising investment, planned exits']
+    ] },
+    { type: 'timeline', title: 'A first-year rhythm (typical, check your state)', items: [
+      { label: 'Week 1–2', desc: '<b>Form and get an EIN.</b> File with the state, get the EIN online, sign the operating agreement or bylaws, open the bank account.' },
+      { label: 'Week 2–6', desc: '<b>Register and license.</b> State tax accounts, local licence, insurance, trademark search. Start SAM.gov if you will sell to government — it can take weeks.' },
+      { label: 'Every quarter', desc: '<b>Estimated taxes and payroll returns.</b> Federal estimated tax payments and quarterly payroll returns (Form 941) once you have employees; sales-tax returns as your state assigns.' },
+      { label: 'Jan 31', desc: '<b>W-2s and 1099-NEC due.</b> Give workers and file with the government by January 31.' },
+      { label: 'Mar–Apr', desc: '<b>Annual income-tax returns.</b> Partnerships and S-corps by mid-March, C-corps and individuals by mid-April (calendar-year businesses; extensions available).' },
+      { label: 'Each year', desc: '<b>Annual report, licences and SAM.gov renewal.</b> Keep the company in good standing with the state, renew licences, and renew SAM.gov every 365 days.' }
+    ] }
+  ];
   var PLAYBOOK_EXTRA = [
     { type: 'map', title: 'Who pays whom?', center: 'Business models',
       branches: [
